@@ -3,11 +3,11 @@
 import { useEffect, useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
-import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
+import { Card } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
-import { ShoppingCart, Filter, Star } from "lucide-react";
+import { Star } from "lucide-react";
 
 type Product = {
   id: string;
@@ -72,7 +72,7 @@ export default function ProductsPage() {
 
   if (loading) {
     return (
-      <div className="flex min-h-screen items-center justify-center">
+      <div className="flex min-h-screen items-center justify-center bg-gray-50">
         <div className="text-center">
           <div className="text-2xl font-semibold">Moment mol, mir laden...</div>
         </div>
@@ -81,14 +81,14 @@ export default function ProductsPage() {
   }
 
   return (
-    <div className="min-h-screen">
-      <div className="border-b">
+    <div className="min-h-screen bg-gray-50">
+      <div className="bg-white border-b">
         <div className="mx-auto max-w-7xl px-6 py-12 lg:px-8">
           <div className="mx-auto max-w-2xl text-center">
-            <h1 className="text-4xl font-bold tracking-tight sm:text-5xl">
+            <h1 className="text-4xl font-bold tracking-tight uppercase sm:text-5xl">
               Onsre Bese
             </h1>
-            <p className="mt-4 text-lg text-muted-foreground">
+            <p className="mt-4 text-lg text-gray-600">
               Handgmachte Qualität aus Baden-Württemberg
             </p>
           </div>
@@ -102,10 +102,10 @@ export default function ProductsPage() {
             placeholder="Bese suache..."
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
-            className="flex-1"
+            className="flex-1 bg-white"
           />
           <Select value={sortBy} onValueChange={setSortBy}>
-            <SelectTrigger className="w-full sm:w-[200px]">
+            <SelectTrigger className="w-full sm:w-[200px] bg-white">
               <SelectValue />
             </SelectTrigger>
             <SelectContent>
@@ -118,42 +118,40 @@ export default function ProductsPage() {
 
         {filteredProducts.length === 0 ? (
           <div className="py-12 text-center">
-            <p className="text-lg text-muted-foreground">
+            <p className="text-lg text-gray-600">
               Koine Bese gfunde. Probier's mol mit ebbes anderem!
             </p>
           </div>
         ) : (
-          <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
+          <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-4">
             {filteredProducts.map((product) => (
-              <Card key={product.id} className="flex flex-col overflow-hidden">
-                <div className="relative aspect-square overflow-hidden">
-                  <Image
-                    src={product.image}
-                    alt={product.name}
-                    fill
-                    className="object-cover transition-transform hover:scale-105"
-                    sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
-                  />
-                </div>
-                <CardHeader>
-                  <CardTitle className="line-clamp-1">{product.name}</CardTitle>
-                  <CardDescription className="line-clamp-2">
-                    {product.description}
-                  </CardDescription>
-                </CardHeader>
-                <CardContent className="flex-grow">
-                  <p className="text-2xl font-bold">
-                    €{(product.priceCents / 100).toFixed(2)}
-                  </p>
-                </CardContent>
-                <CardFooter>
-                  <Link href={`/products/${product.id}`} className="w-full">
-                    <Button className="w-full" variant="default">
-                      Details aluage
-                    </Button>
-                  </Link>
-                </CardFooter>
-              </Card>
+              <Link key={product.id} href={`/products/${product.id}`} className="group">
+                <Card className="overflow-hidden bg-white border-0 shadow-none hover:shadow-lg transition-shadow">
+                  <div className="relative aspect-square overflow-hidden rounded-2xl bg-gray-100">
+                    <Image
+                      src={product.image}
+                      alt={product.name}
+                      fill
+                      className="object-cover transition-transform group-hover:scale-105"
+                      sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 25vw"
+                    />
+                  </div>
+                  <div className="p-4">
+                    <h3 className="font-bold text-base line-clamp-1 mb-1">{product.name}</h3>
+                    <div className="flex items-center gap-1 mb-2">
+                      <Star className="h-4 w-4 fill-yellow-400 text-yellow-400" />
+                      <Star className="h-4 w-4 fill-yellow-400 text-yellow-400" />
+                      <Star className="h-4 w-4 fill-yellow-400 text-yellow-400" />
+                      <Star className="h-4 w-4 fill-yellow-400 text-yellow-400" />
+                      <Star className="h-4 w-4 fill-gray-300 text-gray-300" />
+                      <span className="text-xs text-gray-600 ml-1">4.5/5</span>
+                    </div>
+                    <div className="text-xl font-bold">
+                      €{(product.priceCents / 100).toFixed(2)}
+                    </div>
+                  </div>
+                </Card>
+              </Link>
             ))}
           </div>
         )}

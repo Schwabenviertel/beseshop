@@ -4,7 +4,6 @@ import Link from "next/link";
 import { ShoppingCart, User } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { LogoutButton } from "@/components/logout-button";
-import { ThemeToggle } from "@/components/theme-toggle";
 
 type NavigationProps = {
   user: { email: string } | null;
@@ -31,7 +30,6 @@ export function Navigation({ user }: NavigationProps) {
           </div>
           
           <div className="flex items-center gap-3">
-            <ThemeToggle />
             {user ? (
               <>
                 <div className="hidden sm:flex items-center gap-1.5 px-3 py-1.5 bg-muted rounded-lg border border-border text-sm">
