@@ -1,7 +1,7 @@
 {
-  "name": "charliesschockoladenfabrik",
+  "name": "schwabisch-broom-shop",
   "version": "1.0.0",
-  "description": "School webshop for chocolate products",
+  "description": "Premium handcrafted broom webshop with Schwäbisch dialect",
   "private": true,
   "engines": {
     "node": ">=18.0.0 <=20.x"

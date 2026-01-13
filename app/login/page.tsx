@@ -51,57 +51,55 @@ export default function LoginPage() {
   };
 
   return (
-    <div className="min-h-[80vh] flex items-center justify-center px-4 bg-gradient-to-b from-background to-muted/20">
-      <Card className="w-full max-w-md shadow-xl">
+    <div className="min-h-[80vh] flex items-center justify-center px-4">
+      <Card className="w-full max-w-md">
         <CardHeader>
-          <CardTitle className="text-3xl">Omelda 👋</CardTitle>
-          <CardDescription className="text-base">
+          <CardTitle className="text-2xl">Omelda</CardTitle>
+          <CardDescription>
             Meld di o, damit'd Bese kaufe kannsch!
           </CardDescription>
         </CardHeader>
         <form onSubmit={handleSubmit}>
           <CardContent className="space-y-4">
             {error && (
-              <div className="bg-destructive/15 text-destructive px-4 py-3 rounded-lg font-semibold">
+              <div className="rounded-lg bg-destructive/15 px-4 py-3 text-sm text-destructive">
                 {error}
               </div>
             )}
             <div className="space-y-2">
-              <Label htmlFor="email" className="text-base font-semibold">E-Mail</Label>
+              <Label htmlFor="email">E-Mail</Label>
               <Input
                 id="email"
                 type="email"
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
                 required
-                className="h-12"
               />
             </div>
             <div className="space-y-2">
-              <Label htmlFor="password" className="text-base font-semibold">Passwort</Label>
+              <Label htmlFor="password">Passwort</Label>
               <Input
                 id="password"
                 type="password"
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
                 required
-                className="h-12"
               />
             </div>
-            <div className="text-sm text-muted-foreground bg-muted p-3 rounded-lg">
-              <p className="font-semibold mb-1">Test-Konto:</p>
+            <div className="rounded-lg bg-muted p-4 text-sm text-muted-foreground">
+              <p className="font-medium mb-1">Test-Konto:</p>
               <p>E-Mail: teacher@example.com</p>
               <p>Passwort: lehrerpass</p>
             </div>
           </CardContent>
           <CardFooter className="flex flex-col gap-4">
-            <Button type="submit" className="w-full h-12 text-base font-semibold" disabled={loading}>
-              {loading ? "Moment mol..." : "Jetzat omelda!"}
+            <Button type="submit" className="w-full" size="lg" disabled={loading}>
+              {loading ? "Moment mol..." : "Jetzat omelda"}
             </Button>
             <p className="text-sm text-center text-muted-foreground">
               No koi Konto?{" "}
-              <Link href="/register" className="text-primary hover:underline font-semibold">
-                Jetzat regischtriere!
+              <Link href="/register" className="text-primary hover:underline">
+                Jetzat regischtriere
               </Link>
             </p>
           </CardFooter>

@@ -1,6 +1,6 @@
-# 🍫 Charlie's Schokoladenfabrik
+# 🧹 Schwäbisch Broom Shop
 
-**A modern, full-stack e-commerce web application for a school chocolate shop**
+**A modern, full-stack e-commerce web application for premium handcrafted brooms**
 
 Built with Next.js 16, TypeScript, Prisma, and SQLite - ready to run locally in minutes!
 
@@ -51,7 +51,7 @@ Use these credentials to test the application:
 - User registration and login
 
 ### 🛒 Complete Shopping Experience
-- Browse premium chocolate products with high-quality images
+- Browse premium broom products with high-quality images
 - Product detail pages with SKU and descriptions
 - Shopping cart with localStorage persistence
 - Quantity management and cart updates
@@ -68,7 +68,7 @@ Use these credentials to test the application:
 ### 🗄️ Database & Data
 - SQLite database for simplicity
 - Prisma ORM for type-safe database access
-- Pre-seeded with 5 chocolate products
+- Pre-seeded with 10 premium broom products
 - Teacher account ready to use
 
 ---
@@ -83,7 +83,7 @@ Use these credentials to test the application:
 | **Database** | SQLite |
 | **Authentication** | JWT, bcrypt, HttpOnly Cookies |
 | **Icons** | Lucide React |
-| **Images** | Unsplash (via CDN) |
+| **Images** | Pexels (via CDN) |
 
 ---
 
@@ -185,7 +185,7 @@ npm run prisma:seed
 This creates:
 - ✅ SQLite database at `prisma/dev.db`
 - ✅ Teacher account: `teacher@example.com` / `lehrerpass`
-- ✅ 5 chocolate products with images
+- ✅ 10 premium broom products with images
 
 ### Step 5: Start Development Server
 
@@ -239,7 +239,7 @@ The application will be available at [http://localhost:3000](http://localhost:30
 
 1. **Homepage**
    - [ ] Hero section displays correctly
-   - [ ] 5 products are visible with images
+   - [ ] Products grid displays correctly
    - [ ] Product cards show price and description
    - [ ] Hover effects work on product cards
 
@@ -250,7 +250,7 @@ The application will be available at [http://localhost:3000](http://localhost:30
    - [ ] Cannot access checkout without login
 
 3. **Product Detail**
-   - [ ] Product images load from Unsplash
+   - [ ] Product images load from Pexels
    - [ ] Can adjust quantity
    - [ ] "Add to cart" redirects to cart page
 
@@ -288,11 +288,11 @@ Test that duplicate orders are prevented:
 
 ### Color Palette
 
-- **Primary (Orange):** `hsl(24, 94%, 50%)` - Chocolate theme
+- **Primary (Green):** Forest green accents with professional styling
 - **Background:** `hsl(0, 0%, 100%)` - Clean white
-- **Foreground:** `hsl(20, 14.3%, 4.1%)` - Dark text
-- **Muted:** `hsl(60, 4.8%, 95.9%)` - Subtle backgrounds
-- **Border:** `hsl(20, 5.9%, 90%)` - Light borders
+- **Foreground:** Dark text for readability
+- **Muted:** Subtle backgrounds
+- **Border:** Light borders
 
 ### Typography
 
@@ -327,7 +327,7 @@ All UI components are built with shadcn/ui and Tailwind CSS:
 ### Products
 
 **GET `/api/products`**
-- Returns all products
+- Returns all broom products
 - No authentication required
 
 ### Checkout
@@ -394,8 +394,8 @@ npm run prisma:seed
 ```
 
 **Error: `Images not loading`**
-- Check internet connection (images from Unsplash)
-- Verify `next.config.ts` allows `images.unsplash.com`
+- Check internet connection (images from Pexels)
+- Verify `next.config.ts` allows `images.pexels.com`
 
 **Error: `Login fails with correct credentials`**
 - Clear browser cookies
@@ -414,7 +414,7 @@ npm run prisma:seed
 ### Models
 
 - **User:** Authentication and orders
-- **Product:** Chocolate products
+- **Product:** Premium broom products
 - **Order:** Customer orders with shipping
 - **OrderItem:** Line items in orders
 

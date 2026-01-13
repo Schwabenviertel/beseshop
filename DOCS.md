@@ -1,4 +1,4 @@
-# Charlie's Schokoladenfabrik - Technical Documentation
+# Schwäbisch Broom Shop - Technical Documentation
 
 ## Table of Contents
 
@@ -17,13 +17,13 @@
 
 ## Project Overview
 
-Charlie's Schokoladenfabrik is a modern e-commerce web application for a school chocolate shop. Built with Next.js 16, it provides a complete shopping experience including product browsing, cart management, secure checkout, and order tracking.
+Schwäbisch Broom Shop is a modern e-commerce web application for premium handcrafted brooms. Built with Next.js 16, it provides a complete shopping experience including product browsing, cart management, secure checkout, and order tracking.
 
 ### Key Features
 
-- **Modern UI/UX**: Beautiful, responsive design with smooth animations
+- **Modern UI/UX**: Beautiful, responsive design with professional shadcn styling
 - **User Authentication**: JWT-based auth with HttpOnly cookies
-- **Product Management**: Browse chocolate products with high-quality images
+- **Product Management**: Browse premium broom products with high-quality images from Pexels
 - **Shopping Cart**: Client-side cart with localStorage persistence
 - **Secure Checkout**: Idempotent order processing with database transactions
 - **Order Tracking**: View order history and download receipts
@@ -317,11 +317,11 @@ Retrieve all products.
   "products": [
     {
       "id": "uuid",
-      "sku": "CHOC-001",
-      "name": "Dunkle Schokolade 70%",
-      "description": "...",
-      "priceCents": 450,
-      "image": "https://...",
+      "sku": "BROOM-001",
+      "name": "Der Schwoba-Klassiker",
+      "description": "Der beste Besen für dei Kehrwoch!",
+      "priceCents": 2499,
+      "image": "https://images.pexels.com/...",
       "createdAt": "2026-01-13T...",
       "updatedAt": "2026-01-13T..."
     }
