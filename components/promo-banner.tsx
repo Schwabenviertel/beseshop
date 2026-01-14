@@ -9,10 +9,10 @@ export function PromoBanner() {
   if (!isVisible) return null;
 
   return (
-    <div className="bg-black text-white py-2 px-4 text-center text-sm relative">
+    <div className="bg-black dark:bg-white text-white dark:text-black py-2 px-4 text-center text-sm relative">
       <p>
         Jetzat omelde ond 20% Rabatt uf dei erschte Beschtelluing kriege!{" "}
-        <a href="/register" className="underline font-semibold hover:text-gray-300">
+        <a href="/register" className="underline font-semibold hover:opacity-70 transition-opacity">
           Jetzat omelde
         </a>
       </p>

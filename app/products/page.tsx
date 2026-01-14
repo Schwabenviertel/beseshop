@@ -72,7 +72,7 @@ export default function ProductsPage() {
 
   if (loading) {
     return (
-      <div className="flex min-h-screen items-center justify-center bg-gray-50">
+      <div className="flex min-h-screen items-center justify-center bg-background">
         <div className="text-center">
           <div className="text-2xl font-semibold">Moment mol, mir laden...</div>
         </div>
@@ -81,14 +81,14 @@ export default function ProductsPage() {
   }
 
   return (
-    <div className="min-h-screen bg-gray-50">
-      <div className="bg-white border-b">
+    <div className="min-h-screen bg-background">
+      <div className="bg-card border-b dark:border-gray-800">
         <div className="mx-auto max-w-7xl px-6 py-12 lg:px-8">
           <div className="mx-auto max-w-2xl text-center">
             <h1 className="text-4xl font-bold tracking-tight uppercase sm:text-5xl">
               Onsre Bese
             </h1>
-            <p className="mt-4 text-lg text-gray-600">
+            <p className="mt-4 text-lg text-muted-foreground">
               Handgmachte Qualität aus Baden-Württemberg
             </p>
           </div>
@@ -102,10 +102,10 @@ export default function ProductsPage() {
             placeholder="Bese suache..."
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
-            className="flex-1 bg-white"
+            className="flex-1"
           />
           <Select value={sortBy} onValueChange={setSortBy}>
-            <SelectTrigger className="w-full sm:w-[200px] bg-white">
+            <SelectTrigger className="w-full sm:w-[200px]">
               <SelectValue />
             </SelectTrigger>
             <SelectContent>
@@ -118,7 +118,7 @@ export default function ProductsPage() {
 
         {filteredProducts.length === 0 ? (
           <div className="py-12 text-center">
-            <p className="text-lg text-gray-600">
+            <p className="text-lg text-muted-foreground">
               Koine Bese gfunde. Probier's mol mit ebbes anderem!
             </p>
           </div>
@@ -126,8 +126,8 @@ export default function ProductsPage() {
           <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-4">
             {filteredProducts.map((product) => (
               <Link key={product.id} href={`/products/${product.id}`} className="group">
-                <Card className="overflow-hidden bg-white border-0 shadow-none hover:shadow-lg transition-shadow">
-                  <div className="relative aspect-square overflow-hidden rounded-2xl bg-gray-100">
+                <Card className="overflow-hidden bg-card border-0 shadow-lg dark:shadow-none hover:shadow-xl transition-shadow">
+                  <div className="relative aspect-square overflow-hidden rounded-2xl bg-muted">
                     <Image
                       src={product.image}
                       alt={product.name}
@@ -143,8 +143,8 @@ export default function ProductsPage() {
                       <Star className="h-4 w-4 fill-yellow-400 text-yellow-400" />
                       <Star className="h-4 w-4 fill-yellow-400 text-yellow-400" />
                       <Star className="h-4 w-4 fill-yellow-400 text-yellow-400" />
-                      <Star className="h-4 w-4 fill-gray-300 text-gray-300" />
-                      <span className="text-xs text-gray-600 ml-1">4.5/5</span>
+                      <Star className="h-4 w-4 fill-gray-300 dark:fill-gray-600 text-gray-300 dark:text-gray-600" />
+                      <span className="text-xs text-muted-foreground ml-1">4.5/5</span>
                     </div>
                     <div className="text-xl font-bold">
                       €{(product.priceCents / 100).toFixed(2)}
