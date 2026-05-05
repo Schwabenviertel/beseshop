@@ -1,0 +1,203 @@
+:root {
+    --primary: #000; /* Hauptfarbe: Schwarz */
+    --background: #fff; /* Hintergrundfarbe: Weiß */
+    --text: #333; /* Standard-Textfarbe: Dunkelgrau */
+    --muted: #666; /* Dezente Textfarbe: Mittelgrau */
+    --gray-light: #f4f4f4; /* Hellgrauer Hintergrund für Karten/Formulare */
+    --radius: 8px; /* Standard-Abrundung für Ecken */
+}
+
+* {
+    box-sizing: border-box; /* Padding und Border werden in die Breite/Höhe eingerechnet */
+    margin: 0; /* Entfernt Standard-Außenabstände aller Elemente */
+    padding: 0; /* Entfernt Standard-Innenabstände aller Elemente */
+}
+
+body {
+    font-family: 'Inter', sans-serif; /* Setzt die Hauptschriftart */
+    line-height: 1.6; /* Zeilenabstand für bessere Lesbarkeit */
+    color: var(--text); /* Verwendet die definierte Textfarbe */
+    background: var(--background); /* Verwendet die definierte Hintergrundfarbe */
+}
+
+.container {
+    max-width: 1200px; /* Maximale Breite des Inhaltsbereichs */
+    margin: 0 auto; /* Zentriert den Container horizontal */
+    padding: 0 20px; /* Seitlicher Innenabstand für kleine Bildschirme */
+}
+
+header {
+    background: #fff; /* Weißer Hintergrund für den Kopfbereich */
+    border-bottom: 1px solid #eee; /* Dezente Linie am unteren Rand */
+    padding: 20px 0; /* Vertikaler Innenabstand */
+    position: sticky; /* Header bleibt beim Scrollen am oberen Rand haften */
+    top: 0; /* Positionierung am obersten Rand */
+    z-index: 100; /* Stellt sicher, dass der Header über anderen Elementen liegt */
+}
+
+nav {
+    display: flex; /* Aktiviert Flexbox für die Ausrichtung */
+    justify-content: space-between; /* Verteilt Logo, Links und Sprachschalter */
+    align-items: center; /* Zentriert die Elemente vertikal */
+}
+
+.logo a {
+    font-weight: 900; /* Sehr fettgedruckte Schrift für das Logo */
+    font-size: 24px; /* Schriftgröße des Logos */
+    text-decoration: none; /* Entfernt die Unterstreichung des Links */
+    color: var(--primary); /* Verwendet Schwarz als Farbe */
+    letter-spacing: -1px; /* Verringert den Buchstabenabstand für modernen Look */
+}
+
+.nav-links {
+    display: flex; /* Richtet die Navigationslinks nebeneinander aus */
+    list-style: none; /* Entfernt die Aufzählungspunkte */
+    gap: 30px; /* Abstand zwischen den einzelnen Links */
+}
+
+.nav-links a {
+    text-decoration: none; /* Entfernt Unterstreichung */
+    color: var(--text); /* Dunkelgraue Textfarbe */
+    font-weight: 600; /* Halbfett */
+    font-size: 14px; /* Etwas kleinere Schrift für die Navigation */
+    text-transform: uppercase; /* Schreibt alle Buchstaben groß */
+    transition: color 0.3s; /* Sanfter Farbübergang bei Hover */
+}
+
+.nav-links a:hover {
+    color: var(--muted); /* Farbe ändert sich beim Drüberfahren zu Mittelgrau */
+}
+
+.lang-switcher a {
+    text-decoration: none; /* Keine Unterstreichung */
+    color: var(--muted); /* Mittelgrau */
+    font-size: 12px; /* Kleine Schriftgröße */
+}
+
+.lang-switcher a.active {
+    font-weight: bold; /* Fettgedruckt, wenn die Sprache aktiv ist */
+    color: var(--primary); /* Schwarz, wenn aktiv */
+}
+
+/* Hero Section: Der große Einstiegsbereich */
+.hero {
+    padding: 100px 0; /* Großer vertikaler Abstand */
+    text-align: center; /* Zentriert den Text */
+    background: #000; /* Schwarzer Hintergrund */
+    color: #fff; /* Weißer Text */
+    margin-bottom: 60px; /* Abstand zum nächsten Bereich */
+}
+
+.hero h1 {
+    font-size: 64px; /* Sehr große Überschrift */
+    font-weight: 900; /* Maximale Schriftdicke */
+    margin-bottom: 20px; /* Abstand zum Untertitel */
+    text-transform: uppercase; /* Großbuchstaben */
+}
+
+.hero p {
+    font-size: 20px; /* Größerer Text für den Untertitel */
+    max-width: 700px; /* Begrenzt die Breite des Textes */
+    margin: 0 auto 40px; /* Zentriert den Textblock und gibt Abstand nach unten */
+    opacity: 0.9; /* Leicht transparent für edlen Look */
+}
+
+.btn {
+    display: inline-block; /* Ermöglicht Padding und Transformationen */
+    background: #fff; /* Weißer Hintergrund des Buttons */
+    color: #000; /* Schwarzer Text */
+    padding: 15px 40px; /* Innenabstand des Buttons */
+    border-radius: 50px; /* Komplett abgerundete Ecken (Pillenform) */
+    text-decoration: none; /* Keine Unterstreichung */
+    font-weight: bold; /* Fettgedruckter Text */
+    transition: transform 0.3s; /* Sanfte Animation beim Hover */
+}
+
+.btn:hover {
+    transform: scale(1.05); /* Button wird beim Drüberfahren leicht größer */
+}
+
+/* Features: Vorteile des Shops */
+.features {
+    display: grid; /* Grid-Layout für die Spalten */
+    grid-template-columns: repeat(3, 1fr); /* 3 gleich breite Spalten */
+    gap: 30px; /* Abstand zwischen den Karten */
+    margin-bottom: 80px; /* Abstand nach unten */
+}
+
+.feature-card {
+    padding: 40px; /* Großer Innenabstand */
+    background: var(--gray-light); /* Hellgrauer Hintergrund */
+    border-radius: var(--radius); /* Abgerundete Ecken */
+    text-align: center; /* Zentrierter Inhalt */
+}
+
+.feature-card h3 {
+    margin: 20px 0 10px; /* Abstände um die Feature-Überschrift */
+    font-size: 20px; /* Schriftgröße der Überschrift */
+}
+
+/* Table: Darstellung der Produkte */
+table {
+    width: 100%; /* Tabelle nutzt die volle Breite */
+    border-collapse: collapse; /* Entfernt Lücken zwischen den Zellen */
+    margin: 40px 0; /* Abstände oben und unten */
+}
+
+table th, table td {
+    padding: 15px; /* Innenabstand in den Zellen */
+    text-align: left; /* Linksbündiger Text */
+    border-bottom: 1px solid #eee; /* Trennlinie zwischen den Zeilen */
+}
+
+table th {
+    background: var(--gray-light); /* Hellgrauer Tabellenkopf */
+    text-transform: uppercase; /* Großbuchstaben im Kopf */
+    font-size: 12px; /* Kleinere Schrift für die Titel */
+}
+
+/* Forms: Registrierung und Bestellung */
+form {
+    max-width: 500px; /* Begrenzt die Formularbreite */
+    margin: 40px auto; /* Zentriert das Formular */
+    background: var(--gray-light); /* Hellgrauer Hintergrund */
+    padding: 40px; /* Großer Innenabstand */
+    border-radius: var(--radius); /* Abgerundete Ecken */
+}
+
+.form-group {
+    margin-bottom: 20px; /* Abstand zwischen den Eingabefeldern */
+}
+
+.form-group label {
+    display: block; /* Label steht über dem Eingabefeld */
+    margin-bottom: 5px; /* Kleiner Abstand zum Feld */
+    font-weight: bold; /* Fette Schrift für Labels */
+}
+
+.form-group input, .form-group select, .form-group textarea {
+    width: 100%; /* Felder nutzen volle Formularbreite */
+    padding: 10px; /* Innenabstand in den Feldern */
+    border: 1px solid #ddd; /* Dezenter Rahmen */
+    border-radius: 4px; /* Leicht abgerundete Ecken */
+}
+
+.btn-submit {
+    background: #000; /* Schwarzer Button */
+    color: #fff; /* Weißer Text */
+    border: none; /* Kein Rahmen */
+    padding: 15px; /* Großer Klickbereich */
+    width: 100%; /* Button über die volle Breite */
+    border-radius: 4px; /* Abgerundete Ecken */
+    font-weight: bold; /* Fettgedruckt */
+    cursor: pointer; /* Zeigt die Hand beim Drüberfahren */
+}
+
+footer {
+    padding: 60px 0; /* Vertikaler Abstand im Footer */
+    border-top: 1px solid #eee; /* Trennlinie oben */
+    background: var(--gray-light); /* Hellgrauer Hintergrund */
+    text-align: center; /* Zentrierter Text */
+    color: var(--muted); /* Mittelgraue Schriftfarbe */
+    font-size: 14px; /* Etwas kleinere Schrift */
+}
