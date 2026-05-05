@@ -1,203 +1,563 @@
+/* Variablen und Grundlegende Styles */
 :root {
-    --primary: #000; /* Hauptfarbe: Schwarz */
-    --background: #fff; /* Hintergrundfarbe: Weiß */
-    --text: #333; /* Standard-Textfarbe: Dunkelgrau */
-    --muted: #666; /* Dezente Textfarbe: Mittelgrau */
-    --gray-light: #f4f4f4; /* Hellgrauer Hintergrund für Karten/Formulare */
-    --radius: 8px; /* Standard-Abrundung für Ecken */
+    --primary: #000;
+    --background: #fff;
+    --text: #333;
+    --muted: #666;
+    --gray-light: #f4f4f4;
+    --radius: 8px;
 }
 
 * {
-    box-sizing: border-box; /* Padding und Border werden in die Breite/Höhe eingerechnet */
-    margin: 0; /* Entfernt Standard-Außenabstände aller Elemente */
-    padding: 0; /* Entfernt Standard-Innenabstände aller Elemente */
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
 }
 
 body {
-    font-family: 'Inter', sans-serif; /* Setzt die Hauptschriftart */
-    line-height: 1.6; /* Zeilenabstand für bessere Lesbarkeit */
-    color: var(--text); /* Verwendet die definierte Textfarbe */
-    background: var(--background); /* Verwendet die definierte Hintergrundfarbe */
+    font-family: Arial, Helvetica, sans-serif;
+    line-height: 1.6;
+    color: var(--text);
+    background: var(--background);
 }
 
 .container {
-    max-width: 1200px; /* Maximale Breite des Inhaltsbereichs */
-    margin: 0 auto; /* Zentriert den Container horizontal */
-    padding: 0 20px; /* Seitlicher Innenabstand für kleine Bildschirme */
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 20px;
 }
 
+/* Header und Navigation */
 header {
-    background: #fff; /* Weißer Hintergrund für den Kopfbereich */
-    border-bottom: 1px solid #eee; /* Dezente Linie am unteren Rand */
-    padding: 20px 0; /* Vertikaler Innenabstand */
-    position: sticky; /* Header bleibt beim Scrollen am oberen Rand haften */
-    top: 0; /* Positionierung am obersten Rand */
-    z-index: 100; /* Stellt sicher, dass der Header über anderen Elementen liegt */
+    background: #fff;
+    border-bottom: 1px solid #eee;
+    padding: 20px 0;
+    position: sticky;
+    top: 0;
+    z-index: 100;
 }
 
 nav {
-    display: flex; /* Aktiviert Flexbox für die Ausrichtung */
-    justify-content: space-between; /* Verteilt Logo, Links und Sprachschalter */
-    align-items: center; /* Zentriert die Elemente vertikal */
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
 }
 
 .logo a {
-    font-weight: 900; /* Sehr fettgedruckte Schrift für das Logo */
-    font-size: 24px; /* Schriftgröße des Logos */
-    text-decoration: none; /* Entfernt die Unterstreichung des Links */
-    color: var(--primary); /* Verwendet Schwarz als Farbe */
-    letter-spacing: -1px; /* Verringert den Buchstabenabstand für modernen Look */
+    font-weight: 900;
+    font-size: 24px;
+    text-decoration: none;
+    color: var(--primary);
+    letter-spacing: -1px;
 }
 
 .nav-links {
-    display: flex; /* Richtet die Navigationslinks nebeneinander aus */
-    list-style: none; /* Entfernt die Aufzählungspunkte */
-    gap: 30px; /* Abstand zwischen den einzelnen Links */
+    display: flex;
+    list-style: none;
+    gap: 30px;
 }
 
 .nav-links a {
-    text-decoration: none; /* Entfernt Unterstreichung */
-    color: var(--text); /* Dunkelgraue Textfarbe */
-    font-weight: 600; /* Halbfett */
-    font-size: 14px; /* Etwas kleinere Schrift für die Navigation */
-    text-transform: uppercase; /* Schreibt alle Buchstaben groß */
-    transition: color 0.3s; /* Sanfter Farbübergang bei Hover */
+    text-decoration: none;
+    color: var(--text);
+    font-weight: 600;
+    font-size: 14px;
+    text-transform: uppercase;
+    transition: color 0.3s;
 }
 
 .nav-links a:hover {
-    color: var(--muted); /* Farbe ändert sich beim Drüberfahren zu Mittelgrau */
+    color: var(--muted);
 }
 
 .lang-switcher a {
-    text-decoration: none; /* Keine Unterstreichung */
-    color: var(--muted); /* Mittelgrau */
-    font-size: 12px; /* Kleine Schriftgröße */
+    text-decoration: none;
+    color: var(--muted);
+    font-size: 12px;
 }
 
 .lang-switcher a.active {
-    font-weight: bold; /* Fettgedruckt, wenn die Sprache aktiv ist */
-    color: var(--primary); /* Schwarz, wenn aktiv */
+    font-weight: bold;
+    color: var(--primary);
 }
 
-/* Hero Section: Der große Einstiegsbereich */
+/* Hero Section */
 .hero {
-    padding: 100px 0; /* Großer vertikaler Abstand */
-    text-align: center; /* Zentriert den Text */
-    background: #000; /* Schwarzer Hintergrund */
-    color: #fff; /* Weißer Text */
-    margin-bottom: 60px; /* Abstand zum nächsten Bereich */
+    padding: 100px 0;
+    text-align: center;
+    background: #000;
+    color: #fff;
+    margin-bottom: 60px;
 }
 
 .hero h1 {
-    font-size: 64px; /* Sehr große Überschrift */
-    font-weight: 900; /* Maximale Schriftdicke */
-    margin-bottom: 20px; /* Abstand zum Untertitel */
-    text-transform: uppercase; /* Großbuchstaben */
+    font-size: 64px;
+    font-weight: 900;
+    margin-bottom: 20px;
+    text-transform: uppercase;
 }
 
 .hero p {
-    font-size: 20px; /* Größerer Text für den Untertitel */
-    max-width: 700px; /* Begrenzt die Breite des Textes */
-    margin: 0 auto 40px; /* Zentriert den Textblock und gibt Abstand nach unten */
-    opacity: 0.9; /* Leicht transparent für edlen Look */
+    font-size: 20px;
+    max-width: 700px;
+    margin: 0 auto 40px;
+    opacity: 0.9;
 }
 
 .btn {
-    display: inline-block; /* Ermöglicht Padding und Transformationen */
-    background: #fff; /* Weißer Hintergrund des Buttons */
-    color: #000; /* Schwarzer Text */
-    padding: 15px 40px; /* Innenabstand des Buttons */
-    border-radius: 50px; /* Komplett abgerundete Ecken (Pillenform) */
-    text-decoration: none; /* Keine Unterstreichung */
-    font-weight: bold; /* Fettgedruckter Text */
-    transition: transform 0.3s; /* Sanfte Animation beim Hover */
+    display: inline-block;
+    background: #fff;
+    color: #000;
+    padding: 15px 40px;
+    border-radius: 50px;
+    text-decoration: none;
+    font-weight: bold;
+    transition: transform 0.3s;
 }
 
 .btn:hover {
-    transform: scale(1.05); /* Button wird beim Drüberfahren leicht größer */
+    transform: scale(1.05);
 }
 
-/* Features: Vorteile des Shops */
+/* Features */
 .features {
-    display: grid; /* Grid-Layout für die Spalten */
-    grid-template-columns: repeat(3, 1fr); /* 3 gleich breite Spalten */
-    gap: 30px; /* Abstand zwischen den Karten */
-    margin-bottom: 80px; /* Abstand nach unten */
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 30px;
+    margin-bottom: 80px;
 }
 
 .feature-card {
-    padding: 40px; /* Großer Innenabstand */
-    background: var(--gray-light); /* Hellgrauer Hintergrund */
-    border-radius: var(--radius); /* Abgerundete Ecken */
-    text-align: center; /* Zentrierter Inhalt */
+    padding: 40px;
+    background: var(--gray-light);
+    border-radius: var(--radius);
+    text-align: center;
 }
 
 .feature-card h3 {
-    margin: 20px 0 10px; /* Abstände um die Feature-Überschrift */
-    font-size: 20px; /* Schriftgröße der Überschrift */
+    margin: 20px 0 10px;
+    font-size: 20px;
 }
 
-/* Table: Darstellung der Produkte */
+/* Tabellen-Layout */
 table {
-    width: 100%; /* Tabelle nutzt die volle Breite */
-    border-collapse: collapse; /* Entfernt Lücken zwischen den Zellen */
-    margin: 40px 0; /* Abstände oben und unten */
+    width: 100%;
+    border-collapse: collapse;
+    margin: 40px 0;
 }
 
 table th, table td {
-    padding: 15px; /* Innenabstand in den Zellen */
-    text-align: left; /* Linksbündiger Text */
-    border-bottom: 1px solid #eee; /* Trennlinie zwischen den Zeilen */
+    padding: 15px;
+    text-align: left;
+    border-bottom: 1px solid #eee;
 }
 
 table th {
-    background: var(--gray-light); /* Hellgrauer Tabellenkopf */
-    text-transform: uppercase; /* Großbuchstaben im Kopf */
-    font-size: 12px; /* Kleinere Schrift für die Titel */
+    background: var(--gray-light);
+    text-transform: uppercase;
+    font-size: 12px;
 }
 
-/* Forms: Registrierung und Bestellung */
+/* Formular-Styles */
 form {
-    max-width: 500px; /* Begrenzt die Formularbreite */
-    margin: 40px auto; /* Zentriert das Formular */
-    background: var(--gray-light); /* Hellgrauer Hintergrund */
-    padding: 40px; /* Großer Innenabstand */
-    border-radius: var(--radius); /* Abgerundete Ecken */
+    max-width: 500px;
+    margin: 40px auto;
+    background: var(--gray-light);
+    padding: 40px;
+    border-radius: var(--radius);
 }
 
 .form-group {
-    margin-bottom: 20px; /* Abstand zwischen den Eingabefeldern */
+    margin-bottom: 20px;
 }
 
 .form-group label {
-    display: block; /* Label steht über dem Eingabefeld */
-    margin-bottom: 5px; /* Kleiner Abstand zum Feld */
-    font-weight: bold; /* Fette Schrift für Labels */
+    display: block;
+    margin-bottom: 5px;
+    font-weight: bold;
 }
 
 .form-group input, .form-group select, .form-group textarea {
-    width: 100%; /* Felder nutzen volle Formularbreite */
-    padding: 10px; /* Innenabstand in den Feldern */
-    border: 1px solid #ddd; /* Dezenter Rahmen */
-    border-radius: 4px; /* Leicht abgerundete Ecken */
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
 }
 
 .btn-submit {
-    background: #000; /* Schwarzer Button */
-    color: #fff; /* Weißer Text */
-    border: none; /* Kein Rahmen */
-    padding: 15px; /* Großer Klickbereich */
-    width: 100%; /* Button über die volle Breite */
-    border-radius: 4px; /* Abgerundete Ecken */
-    font-weight: bold; /* Fettgedruckt */
-    cursor: pointer; /* Zeigt die Hand beim Drüberfahren */
+    background: #000;
+    color: #fff;
+    border: none;
+    padding: 15px;
+    width: 100%;
+    border-radius: 4px;
+    font-weight: bold;
+    cursor: pointer;
 }
 
+/* Checkout */
+.checkout-wrapper {
+    max-width: 700px;
+    margin: 0 auto;
+    padding: 40px 0 80px;
+}
+
+.checkout-title {
+    text-align: center;
+    font-size: 32px;
+    margin-bottom: 5px;
+}
+
+.checkout-subtitle {
+    text-align: center;
+    color: var(--muted);
+    margin-bottom: 30px;
+}
+
+.checkout-form {
+    max-width: 100%;
+    background: none;
+    padding: 0;
+    margin: 0;
+}
+
+.checkout-section {
+    background: var(--gray-light);
+    border-radius: var(--radius);
+    padding: 30px;
+    margin-bottom: 20px;
+}
+
+.section-heading {
+    font-size: 16px;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    margin-bottom: 20px;
+    padding-bottom: 10px;
+    border-bottom: 1px solid #ddd;
+}
+
+.payment-options {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 12px;
+}
+
+.payment-option input[type="radio"] {
+    display: none;
+}
+
+.payment-card {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 20px 15px;
+    border: 2px solid #ddd;
+    border-radius: var(--radius);
+    cursor: pointer;
+    transition: border-color 0.2s, background 0.2s;
+    text-align: center;
+}
+
+.payment-option input[type="radio"]:checked + .payment-card {
+    border-color: #000;
+    background: #fff;
+}
+
+.payment-card:hover {
+    border-color: #999;
+}
+
+.payment-icon {
+    font-size: 28px;
+    margin-bottom: 8px;
+}
+
+.payment-label {
+    font-weight: bold;
+    font-size: 14px;
+}
+
+.payment-desc {
+    font-size: 12px;
+    color: var(--muted);
+    margin-top: 4px;
+}
+
+.order-summary {
+    background: #fff;
+    border-radius: var(--radius);
+    padding: 20px;
+}
+
+.summary-row {
+    display: flex;
+    justify-content: space-between;
+    padding: 10px 0;
+    border-bottom: 1px solid #eee;
+    font-size: 14px;
+}
+
+.summary-row:last-child {
+    border-bottom: none;
+}
+
+.summary-total {
+    font-weight: 900;
+    font-size: 18px;
+    padding-top: 15px;
+    border-top: 2px solid #000;
+}
+
+.btn-checkout {
+    margin-top: 20px;
+    font-size: 16px;
+    padding: 18px;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+}
+
+.alert {
+    padding: 15px 20px;
+    border-radius: var(--radius);
+    margin-bottom: 20px;
+    text-align: center;
+    font-weight: 600;
+}
+
+.alert-success {
+    background: #d4edda;
+    color: #155724;
+    border: 1px solid #c3e6cb;
+}
+
+.alert-error {
+    background: #f8d7da;
+    color: #721c24;
+    border: 1px solid #f5c6cb;
+}
+
+/* Bestellbestaetigung */
+.confirmation-wrapper {
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 40px 0 80px;
+}
+
+.confirmation-header {
+    text-align: center;
+    margin-bottom: 40px;
+}
+
+.confirmation-icon {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 60px;
+    height: 60px;
+    background: #000;
+    color: #fff;
+    border-radius: 50%;
+    font-size: 28px;
+    margin-bottom: 15px;
+}
+
+.confirmation-header h2 {
+    font-size: 28px;
+    margin-bottom: 5px;
+}
+
+.confirmation-header p {
+    color: var(--muted);
+}
+
+.confirmation-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 20px;
+    margin-bottom: 30px;
+}
+
+.confirmation-card {
+    background: var(--gray-light);
+    border-radius: var(--radius);
+    padding: 25px;
+}
+
+.confirmation-card h3 {
+    font-size: 14px;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    margin-bottom: 15px;
+    padding-bottom: 10px;
+    border-bottom: 1px solid #ddd;
+}
+
+.detail-row {
+    display: flex;
+    justify-content: space-between;
+    padding: 8px 0;
+    font-size: 14px;
+    border-bottom: 1px solid #eee;
+}
+
+.detail-row:last-child {
+    border-bottom: none;
+}
+
+.detail-total {
+    font-size: 16px;
+    padding-top: 12px;
+    margin-top: 5px;
+    border-top: 2px solid #000;
+    border-bottom: none;
+}
+
+.address-block {
+    font-size: 14px;
+    line-height: 1.8;
+    margin-bottom: 10px;
+}
+
+.confirmation-actions {
+    display: flex;
+    gap: 15px;
+    justify-content: center;
+}
+
+.btn-secondary {
+    background: var(--gray-light);
+    color: #000;
+    border: 2px solid #000;
+}
+
+/* Meine Bestellungen */
+.orders-wrapper {
+    max-width: 700px;
+    margin: 0 auto;
+    padding: 40px 0 80px;
+}
+
+.orders-title {
+    text-align: center;
+    font-size: 32px;
+    margin-bottom: 5px;
+}
+
+.orders-subtitle {
+    text-align: center;
+    color: var(--muted);
+    margin-bottom: 30px;
+}
+
+.orders-empty {
+    text-align: center;
+    padding: 60px 20px;
+    background: var(--gray-light);
+    border-radius: var(--radius);
+    color: var(--muted);
+    font-size: 16px;
+}
+
+.orders-list {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+.order-item {
+    background: var(--gray-light);
+    border-radius: var(--radius);
+    overflow: hidden;
+}
+
+.order-item-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 15px 20px;
+    background: #000;
+    color: #fff;
+    font-size: 13px;
+}
+
+.order-number {
+    font-weight: bold;
+    letter-spacing: 0.5px;
+}
+
+.order-date {
+    opacity: 0.8;
+}
+
+.order-item-body {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 20px;
+}
+
+.order-product-nr {
+    display: block;
+    font-size: 12px;
+    color: var(--muted);
+    margin-top: 3px;
+}
+
+.order-details {
+    display: flex;
+    gap: 20px;
+    align-items: center;
+    font-size: 14px;
+}
+
+.orders-count {
+    text-align: center;
+    margin-top: 20px;
+    font-size: 13px;
+    color: var(--muted);
+}
+
+.cancel-form {
+    display: inline;
+    max-width: none;
+    margin: 0;
+    padding: 0;
+    background: none;
+}
+
+.btn-cancel {
+    background: none;
+    color: #c0392b;
+    border: 1px solid #c0392b;
+    padding: 6px 14px;
+    border-radius: 4px;
+    font-size: 12px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: background 0.2s, color 0.2s;
+}
+
+.btn-cancel:hover {
+    background: #c0392b;
+    color: #fff;
+}
+
+@media (max-width: 600px) {
+    .confirmation-grid {
+        grid-template-columns: 1fr;
+    }
+    .payment-options {
+        grid-template-columns: 1fr;
+    }
+}
+
+/* Footer */
 footer {
-    padding: 60px 0; /* Vertikaler Abstand im Footer */
-    border-top: 1px solid #eee; /* Trennlinie oben */
-    background: var(--gray-light); /* Hellgrauer Hintergrund */
-    text-align: center; /* Zentrierter Text */
-    color: var(--muted); /* Mittelgraue Schriftfarbe */
-    font-size: 14px; /* Etwas kleinere Schrift */
+    padding: 60px 0;
+    border-top: 1px solid #eee;
+    background: var(--gray-light);
+    text-align: center;
+    color: var(--muted);
+    font-size: 14px;
 }

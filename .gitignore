@@ -7,3 +7,12 @@ Thumbs.db
 .idea/
 *.swp
 *.bak
+
+# Playwright / Tests
+tests/
+test-results/
+playwright-report/
+playwright.config.ts
+node_modules/
+package.json
+package-lock.json

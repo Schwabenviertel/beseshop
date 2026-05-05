@@ -1,101 +1,219 @@
-# PROJEKTDOKUMENTATION
-## Realisierung eines Webauftritts für den Hardware-Shop "BESE.CO"
+# PROJEKTDOKUMENTATION: BESE.CO Webshop
+## Entwicklung einer E-Commerce Plattform für schwäbische Hardware (Besen)
 
-**Fach:** Webentwicklung (HTML, PHP, SQL)  
-**Projektmitglieder:** [Dein Name / Gruppe]  
-**Datum:** 03. Mai 2026
-
----
-
-## Inhaltsverzeichnis
-1. Projektbeschreibung
-2. Datenbankmodell (Meilenstein 1)
-3. Implementierung (Meilenstein 2 & 3)
-4. Probleme und Einschränkungen
-5. Zukunftsaussichten und Erweiterungen
-6. Bedienungsanleitung (XAMPP)
+**Fach:** Webentwicklung (HTML5, CSS3, PHP 8.x, MySQL)  
+**Datum:** 05. Mai 2026
 
 ---
 
-## 1. Projektbeschreibung
-Das Projekt "BESE.CO" umfasst die Erstellung einer Online-Präsenz für ein schwäbisches Hardware-Geschäft, das sich auf handgefertigte Besen spezialisiert hat. Ziel war es, eine funktionale Website mit Datenbankanbindung zu erstellen, die eine Landing-Page, eine Registrierung für Kunden, eine Produktübersicht und ein Bestellsystem bietet. Wir haben Wert auf eine einfache Bedienung und die Integration des schwäbischen Dialekts gelegt. Die Seite kann aber auch auf Englisch umgestellt werden.
+## 1. Projektübersicht
+Das Projekt **BESE.CO** ist ein spezialisierter Online-Shop für handgefertigte Besen aus dem Schwarzwald. Die Plattform kombiniert traditionelles Handwerk mit moderner Webtechnologie und integriert den schwäbischen Dialekt als Alleinstellungsmerkmal.
+
+### Kernfeatures:
+- **Landingpage**: Professionelle Präsentation der Markenwerte mit Hero-Bereich und Verkaufsargumenten.
+- **Kundenregistrierung**: Automatisierte Generierung von Kundennummern (z.B. K12345) und sichere Passwortspeicherung.
+- **Login-System**: Session-basierte Authentifizierung mit E-Mail und Passwort.
+- **Produktkatalog**: Dynamische Anzeige aller Artikel aus der Datenbank mit Preis und Direktbestellung.
+- **Checkout-System**: Dreistufiger Bestellprozess mit Produktauswahl, Zahlungsmethode (Rechnung, PayPal, Kreditkarte, Vorkasse) und Live-Zusammenfassung.
+- **Bestellbestätigung**: Detaillierte Übersicht nach Bestellabschluss mit Lieferadresse, Kundendaten und Zahlungsmethode.
+- **Bestellübersicht**: Persönliche Bestellhistorie mit Stornierungsmöglichkeit.
+- **Lagerverwaltung**: Automatische Bestandsreduzierung bei Bestellung und Wiederherstellung bei Stornierung.
+- **Qualitätssicherung**: Detailliertes [Test- und Fehlerprotokoll](./TEST_PROTOKOLL.md).
 
 ---
 
-## 2. Datenbankmodell
-### 2.1 Entity-Relationship-Diagramm (ERD)
-Wir haben das Modell mit MySQL-Workbench entworfen. Hier ist der logische Aufbau:
+## 2. Systemarchitektur & Datenbank
+### 2.1 Datenbankmodell (ERM)
+Die Datenhaltung erfolgt in einer relationalen MySQL-Datenbank. Das folgende Diagramm zeigt den logischen Aufbau (Chen-Notation) sowie die technischen Tabellenstrukturen:
 
-- **CUSTOMERS (Kunden)**
-  - id (Primärschlüssel)
-  - customer_number (eindeutige Nummer für den Kunden)
-  - first_name, last_name, email, password, street, zip_code, city
+#### Logisches Modell (Chen-Notation)
+```mermaid
+flowchart TD
+    %% Entities
+    Kunde[Kunde]
+    Bestellung[Bestellung]
+    Artikel[Artikel]
 
-- **PRODUCTS (Artikel)**
-  - id (Primärschlüssel)
-  - product_number (eindeutige Artikelnummer)
-  - name, description, price, stock
+    %% Beziehungen
+    gibt_auf{gibt auf}
+    beinhaltet{beinhaltet}
 
-- **ORDERS (Bestellungen)**
-  - id (Primärschlüssel)
-  - customer_id (Fremdschlüssel zu CUSTOMERS)
-  - product_id (Fremdschlüssel zu PRODUCTS)
-  - quantity (Menge)
-  - order_date (Datum der Bestellung)
+    %% Attribute für Kunde
+    K_ID(("__ID__ (PK)")) --- Kunde
+    K_Nr(("Kunden-Nr")) --- Kunde
+    K_Vorname(("Vorname")) --- Kunde
+    K_Nachname(("Nachname")) --- Kunde
+    K_Mail(("E-Mail")) --- Kunde
+    K_Passwort(("Passwort")) --- Kunde
+    K_Strasse(("Strasse")) --- Kunde
+    K_PLZ(("PLZ")) --- Kunde
+    K_Stadt(("Stadt")) --- Kunde
+    K_Datum(("Erstellt am")) --- Kunde
+
+    %% Attribute für Artikel
+    A_ID(("__ID__ (PK)")) --- Artikel
+    A_Nr(("Artikel-Nr")) --- Artikel
+    A_Name(("Name")) --- Artikel
+    A_Beschr(("Beschreibung")) --- Artikel
+    A_Preis(("Preis")) --- Artikel
+    A_Bestand(("Bestand")) --- Artikel
+
+    %% Attribute für Bestellung
+    B_ID(("__ID__ (PK)")) --- Bestellung
+    B_KID(("Kunden-ID (FK)")) --- Bestellung
+    B_AID(("Artikel-ID (FK)")) --- Bestellung
+    B_Menge(("Menge")) --- Bestellung
+    B_Datum(("Bestelldatum")) --- Bestellung
+
+    %% Verbindungen
+    Kunde --- gibt_auf
+    gibt_auf ---|1:n| Bestellung
+    Artikel --- beinhaltet
+    beinhaltet ---|1:n| Bestellung
+```
+
+#### Technisches Modell (Crow's Foot Notation)
+```mermaid
+erDiagram
+    CUSTOMERS ||--o{ ORDERS : "gibt auf"
+    PRODUCTS ||--o{ ORDERS : "ist enthalten in"
+    
+    CUSTOMERS {
+        int id PK
+        string customer_number UK
+        string first_name
+        string last_name
+        string email UK
+        string password
+        string street
+        string zip_code
+        string city
+        timestamp created_at
+    }
+    
+    PRODUCTS {
+        int id PK
+        string product_number UK
+        string name
+        text description
+        decimal price
+        int stock
+    }
+    
+    ORDERS {
+        int id PK
+        int customer_id FK
+        int product_id FK
+        int quantity
+        timestamp order_date
+    }
+```
 
 **Beziehungen:**
-- Ein Kunde kann viele Bestellungen aufgeben (1:n).
-- Ein Produkt kann in vielen Bestellungen vorkommen (1:n).
+- Ein **Kunde** kann mehrere **Bestellungen** tätigen (1:n).
+- Ein **Produkt** kann in mehreren **Bestellungen** vorkommen (1:n).
 
-### 2.2 SQL-Abfragen (Beispiele)
-Hier sind die wichtigsten Abfragen aus dem Code:
-
-1. **Neuen Kunden anlegen:**
-   `INSERT INTO customers (...) VALUES (...);`
-2. **Produkte für die Tabelle laden:**
-   `SELECT * FROM products;`
-3. **Kunden-ID anhand der Nummer finden:**
-   `SELECT id FROM customers WHERE customer_number = 'K12345';`
-4. **Bestellung speichern:**
-   `INSERT INTO orders (customer_id, product_id, quantity) VALUES (1, 5, 2);`
+### 2.2 Sicherheit
+- **SQL-Injection Schutz**: Konsequente Nutzung von **PDO Prepared Statements** in allen Datenbankabfragen.
+- **Passwort-Sicherheit**: Einsatz von `password_hash()` mit dem `PASSWORD_DEFAULT` Algorithmus.
+- **XSS-Prävention**: Konsequente Nutzung von `htmlspecialchars()` bei allen Benutzerausgaben.
+- **Transaktionssicherheit**: Bestellvorgänge und Stornierungen werden in Datenbank-Transaktionen (`beginTransaction`, `commit`, `rollBack`) ausgeführt.
+- **Zugriffsschutz**: Geschützte Seiten (Checkout, Bestellungen, Bestätigung) prüfen die Session und leiten nicht eingeloggte Benutzer zum Login weiter.
 
 ---
 
-## 3. Implementierung
+## 3. Technische Implementierung
 ### 3.1 Dateistruktur
-- `header.php` & `footer.php`: Das Grundgerüst der Seite (Navigation, Footer).
-- `config.php`: Die Verbindung zur Datenbank.
-- `translations.php`: Hier stehen alle Texte in Deutsch/Schwäbisch und Englisch.
-- `index.php`: Die Startseite.
-- `register.php`: Das Formular für neue Kunden.
-- `products.php`: Die Liste aller Besen.
-- `order.php`: Hier kann man bestellen.
-- `style.css`: Alle Design-Einstellungen (Farben, Abstände, Schrift).
+Das Projekt ist modular aufgebaut, um Wartbarkeit und Übersichtlichkeit zu gewährleisten:
 
-### 3.2 Funktionsweise
-Die Website nutzt PHP, um Daten aus der MySQL-Datenbank zu lesen und anzuzeigen. Wenn man sich registriert, wird per Zufall eine Kundennummer (K + 5 Zahlen) generiert. In der Bestellung gibt man diese Nummer und die Artikelnummer ein, und PHP verknüpft das dann in der Datenbank.
+```mermaid
+graph TD
+    Root[beseshop/] --> Seiten[Seiten]
+    Root --> Logik[Logik & Konfiguration]
+    Root --> Assets[Assets]
+    
+    Seiten --> Index[index.php - Startseite]
+    Seiten --> Products[products.php - Produktkatalog]
+    Seiten --> Register[register.php - Registrierung]
+    Seiten --> Login[login.php - Anmeldung]
+    Seiten --> Order[order.php - Checkout]
+    Seiten --> Confirm[order_confirmation.php - Bestätigung]
+    Seiten --> MyOrders[my_orders.php - Bestellübersicht]
+    
+    Logik --> Config[config.php - Datenbank & Session]
+    Logik --> Header[header.php - Navigation]
+    Logik --> Footer[footer.php - Fussbereich]
+    Logik --> Logout[logout.php - Abmeldung]
+    
+    Assets --> CSS[style.css - Stylesheet]
+    Assets --> SQL[database.sql - Datenbankschema]
+```
+
+### 3.2 Seitenbeschreibung
+
+| Datei | Beschreibung |
+| :--- | :--- |
+| `config.php` | Stellt die PDO-Datenbankverbindung her und startet die Session. Wird von allen Seiten über `header.php` eingebunden. |
+| `header.php` | Rendert den HTML-Kopf und die Navigation. Zeigt je nach Login-Status unterschiedliche Menüpunkte an. |
+| `footer.php` | Schliesst das HTML-Dokument mit dem Fussbereich ab. |
+| `index.php` | Startseite mit Hero-Bereich und drei Verkaufsargumenten (Nachhaltig, Handgemacht, Schnelle Lieferung). |
+| `products.php` | Zeigt alle Produkte aus der Datenbank in einer Tabelle mit Artikelnummer, Name, Beschreibung und Preis. Jedes Produkt hat einen "Bestellen"-Button. |
+| `register.php` | Registrierungsformular für Neukunden. Erzeugt automatisch eine Kundennummer und loggt den Kunden nach Registrierung ein. |
+| `login.php` | Login mit E-Mail und Passwort. Prüft die Eingaben gegen die Datenbank und startet eine Session. |
+| `order.php` | Dreistufiger Checkout: 1) Produktauswahl per Dropdown, 2) Zahlungsmethode, 3) Live-Zusammenfassung mit Gesamtpreis. Prüft Lagerbestand und aktualisiert diesen nach Bestellung. |
+| `order_confirmation.php` | Bestätigungsseite nach erfolgreicher Bestellung mit allen Details: Bestellnummer, Produkt, Lieferadresse, Kundendaten und Zahlungsmethode. |
+| `my_orders.php` | Persönliche Bestellübersicht mit allen bisherigen Bestellungen. Jede Bestellung kann storniert werden (Datensatz wird gelöscht, Lagerbestand wird wiederhergestellt). |
+| `logout.php` | Beendet die Session und leitet zur Startseite weiter. |
+| `style.css` | Zentrales Stylesheet für alle Seiten. Modern Minimalist Design mit CSS-Variablen. |
+| `database.sql` | SQL-Schema zum Erstellen der Datenbank, Tabellen und Beispieldaten. |
+
+### 3.3 Frontend-Design
+Das Design wurde nach dem **Modern Minimalist** Ansatz entwickelt:
+- **Typografie**: System-Schriftart (Arial/Helvetica) für maximale Lesbarkeit.
+- **Responsive Design**: Mobile-First Optimierung durch flexible Container und Media Queries.
+- **User Experience**: Klare Call-to-Action Buttons, klickbare Zahlungskarten und intuitive Navigation.
+- **Konsistenz**: Einheitliche Alert-Boxen (Erfolg/Fehler), CSS-Variablen für Farben und Abstände.
 
 ---
 
-## 4. Probleme und Einschränkungen
-- Wir mussten uns erst in PDO (PHP Data Objects) einarbeiten, um die Datenbank sicher anzubinden.
-- Das Design mit CSS so hinzubekommen, dass es modern aussieht aber trotzdem zum schwäbischen Thema passt, war knifflig.
-- Es gibt noch keine richtige Login-Funktion (nur Registrierung), das wäre der nächste Schritt.
+## 4. Installationsanleitung (Lokale Entwicklung)
+Um den Webshop lokal (z.B. mit XAMPP) zu betreiben, folgen Sie diesen Schritten:
+
+1. **XAMPP installieren**: Falls noch nicht vorhanden, XAMPP von [apachefriends.org](https://www.apachefriends.org) herunterladen und installieren.
+2. **Webserver starten**: Apache und MySQL im XAMPP Control Panel aktivieren.
+3. **Datenbank anlegen**: `phpMyAdmin` öffnen (`http://localhost/phpmyadmin`), eine neue Datenbank mit dem Namen `beseshop` erstellen.
+4. **Schema importieren**: Im Tab "Importieren" die Datei `database.sql` hochladen und ausführen. Dadurch werden alle Tabellen und Beispieldaten erstellt.
+5. **Dateien kopieren**: Das gesamte Projektverzeichnis `beseshop/` in den XAMPP-Ordner `htdocs/` verschieben.
+6. **Aufrufen**: `http://localhost/beseshop/index.php` im Browser öffnen.
+
+### Test-Zugangsdaten (aus den Beispieldaten):
+| E-Mail | Passwort | Name |
+| :--- | :--- | :--- |
+| `max@mustermann.de` | `passwort123` | Max Mustermann |
+| `anna@schmidt.de` | `passwort123` | Anna Schmidt |
 
 ---
 
-## 5. Zukunftsaussichten und Erweiterungen
-- Ein richtiger Login mit Passwort-Prüfung.
-- Ein Warenkorb, damit man mehrere Besen auf einmal kaufen kann.
-- Eine Suchfunktion für die Produkte.
-- E-Mail Bestätigung nach der Bestellung.
+## 5. Benutzerführung (Anleitung)
+
+### Als Gast (nicht eingeloggt):
+1. **Startseite** ansehen (`index.php`).
+2. **Produkte** durchstöbern (`products.php`).
+3. **Registrieren** (`register.php`) oder **einloggen** (`login.php`).
+
+### Als eingeloggter Kunde:
+1. **Produkt bestellen**: Auf "Bestellen" bei einem Produkt klicken oder über den Menüpunkt "Bestellen" direkt zum Checkout gelangen.
+2. **Checkout durchlaufen**: Produkt und Menge wählen, Zahlungsmethode auswählen, Zusammenfassung prüfen und "Jetzt bestellen" klicken.
+3. **Bestätigung erhalten**: Nach erfolgreicher Bestellung wird eine Bestätigungsseite mit allen Details (Lieferadresse, Zahlungsmethode, Gesamtbetrag) angezeigt.
+4. **Bestellungen einsehen**: Unter "Meine Bestellungen" alle bisherigen Bestellungen ansehen.
+5. **Bestellung stornieren**: In der Bestellübersicht den Button "Stornieren" klicken. Die Bestellung wird gelöscht und der Lagerbestand wiederhergestellt.
 
 ---
 
-## 6. Bedienungsanleitung (XAMPP)
-1. Starte XAMPP (Apache und MySQL).
-2. Gehe auf `http://localhost/phpmyadmin/`.
-3. Erstelle eine neue Datenbank namens `beseshop`.
-4. Importiere die Datei `database.sql`.
-5. Kopiere den Projektordner in `C:\xampp\htdocs\beseshop`.
-6. Rufe `http://localhost/beseshop/index.php` im Browser auf.
+## 6. Fazit & Ausblick
+Das Projekt demonstriert erfolgreich die Umsetzung einer funktionalen CRUD-Applikation mit PHP und MySQL. Der komplette Bestellprozess von der Produktauswahl über den Checkout bis zur Stornierung ist implementiert und funktionsfähig.
+
+**Geplante Erweiterungen:**
+- Integration eines interaktiven Warenkorbs fuer Mehrprodukt-Bestellungen.
+- Admin-Dashboard zur Bestandsverwaltung und Bestellabwicklung.
+- E-Mail-Benachrichtigungen bei Bestelleingang und Stornierung.

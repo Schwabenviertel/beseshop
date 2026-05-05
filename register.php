@@ -1,89 +1,99 @@
-<?php 
-// Bindet den Kopfbereich der Webseite ein (Navigation, HTML-Grundgerüst)
-include 'header.php'; 
+<?php
+/**
+ * Registrierungsseite fuer Neukunden.
+ * Der Kunde gibt seine persoenlichen Daten ein.
+ * Nach erfolgreicher Registrierung wird automatisch eine Kundennummer
+ * generiert und der Kunde eingeloggt.
+ */
+include 'header.php';
 
-// Initialisiert eine leere Variable für Rückmeldungen an den Benutzer
-$msg = "";
-// Prüft, ob das Formular per POST abgeschickt wurde und ob eine Datenbankverbindung besteht
+$msg   = "";
+$error = "";
+
+// Registrierungsformular verarbeiten
 if ($_SERVER["REQUEST_METHOD"] == "POST" && $pdo) {
-    // Speichert die eingegebenen Formulardaten in Variablen
-    $vname = $_POST['vname']; // Vorname
-    $nname = $_POST['nname']; // Nachname
-    $mail = $_POST['mail']; // E-Mail Adresse
-    // Verschlüsselt das Passwort sicher mit dem Standard-Algorithmus (Bcrypt)
-    $pw = password_hash($_POST['pw'], PASSWORD_DEFAULT);
-    $str = $_POST['str']; // Straße
-    $plz = $_POST['plz']; // Postleitzahl
-    $ort = $_POST['ort']; // Wohnort
-    
-    // Generiert eine zufällige Kundennummer beginnend mit 'K' und 5 Zufallszahlen
+    $vname = $_POST['vname'];
+    $nname = $_POST['nname'];
+    $mail  = $_POST['mail'];
+    $pw    = password_hash($_POST['pw'], PASSWORD_DEFAULT);
+    $str   = $_POST['str'];
+    $plz   = $_POST['plz'];
+    $ort   = $_POST['ort'];
+
+    // Eindeutige Kundennummer erzeugen (z.B. K12345)
     $k_nr = "K" . rand(10000, 99999);
-    
-    // Versucht, die Daten in die Datenbank einzufügen
-    try {
-        // SQL-Befehl zum Einfügen eines neuen Kunden (mit Platzhaltern für Sicherheit)
-        $sql = "INSERT INTO customers (customer_number, first_name, last_name, email, password, street, zip_code, city) VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
-        // Bereitet das SQL-Statement vor (Schutz gegen SQL-Injection)
-        $stmt = $pdo->prepare($sql);
-        // Führt das Statement mit den tatsächlichen Werten aus
-        $stmt->execute([$k_nr, $vname, $nname, $mail, $pw, $str, $plz, $ort]);
-        // Setzt eine Erfolgsmeldung inklusive der generierten Kundennummer
-        $msg = "Erfolg! Deine Kundennummer: " . $k_nr;
-    } catch (PDOException $e) {
-        // Falls ein Fehler auftritt (z.B. E-Mail schon vorhanden), wird die Fehlermeldung gespeichert
-        $msg = "Fehler: " . $e->getMessage();
+
+    // Pruefen ob E-Mail bereits vergeben ist
+    $stmt = $pdo->prepare("SELECT id FROM customers WHERE email = ?");
+    $stmt->execute([$mail]);
+    if ($stmt->fetch()) {
+        $error = "Diese E-Mail-Adresse ist bereits registriert!";
+    } else {
+        try {
+            // Neuen Kunden in die Datenbank einfuegen
+            $sql = "INSERT INTO customers (customer_number, first_name, last_name, email, password, street, zip_code, city) 
+                    VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
+            $stmt = $pdo->prepare($sql);
+            $stmt->execute([$k_nr, $vname, $nname, $mail, $pw, $str, $plz, $ort]);
+
+            // Session starten und zum Produktkatalog weiterleiten
+            $_SESSION['customer_id']     = $pdo->lastInsertId();
+            $_SESSION['customer_number'] = $k_nr;
+            $_SESSION['customer_name']   = $vname . ' ' . $nname;
+
+            header("Location: products.php");
+            exit;
+        } catch (PDOException $e) {
+            $error = "Fehler bei der Registrierung. Bitte erneut versuchen.";
+        }
     }
 }
 ?>
 
-<!-- Bereich für das Registrierungsformular -->
 <section class="container">
-    <!-- Zeigt die übersetzte Überschrift für die Registrierung an -->
-    <h2 style="text-align: center; margin-top: 40px;"><?php echo t('registration'); ?></h2>
-    
+    <h2 style="text-align: center; margin-top: 40px;">Registrierung</h2>
+
     <?php if ($msg): ?>
-        <!-- Zeigt die Erfolgs- oder Fehlermeldung an, falls $msg nicht leer ist -->
-        <div style="background: #eee; padding: 20px; margin: 20px auto; max-width: 500px; text-align: center;">
-            <?php echo $msg; ?>
-        </div>
+        <div class="alert alert-success"><?php echo htmlspecialchars($msg); ?></div>
+    <?php endif; ?>
+    <?php if ($error): ?>
+        <div class="alert alert-error"><?php echo htmlspecialchars($error); ?></div>
     <?php endif; ?>
 
-    <!-- Das Formular schickt die Daten an register.php per POST-Methode -->
     <form action="register.php" method="POST">
-        <div class="form-group"> <!-- Gruppe für Vorname -->
+        <div class="form-group">
             <label>Vorname</label>
-            <input type="text" name="vname" required> <!-- Pflichtfeld für Vorname -->
+            <input type="text" name="vname" required>
         </div>
-        <div class="form-group"> <!-- Gruppe für Nachname -->
+        <div class="form-group">
             <label>Nachname</label>
-            <input type="text" name="nname" required> <!-- Pflichtfeld für Nachname -->
+            <input type="text" name="nname" required>
         </div>
-        <div class="form-group"> <!-- Gruppe für E-Mail -->
+        <div class="form-group">
             <label>E-Mail</label>
-            <input type="email" name="mail" required> <!-- Pflichtfeld für E-Mail mit Typprüfung -->
+            <input type="email" name="mail" required>
         </div>
-        <div class="form-group"> <!-- Gruppe für Passwort -->
+        <div class="form-group">
             <label>Passwort</label>
-            <input type="password" name="pw" required> <!-- Pflichtfeld für Passwort (verdeckte Eingabe) -->
+            <input type="password" name="pw" required>
         </div>
-        <div class="form-group"> <!-- Gruppe für Straße -->
-            <label>Straße</label>
-            <input type="text" name="str"> <!-- Optionales Feld für die Straße -->
+        <div class="form-group">
+            <label>Strasse</label>
+            <input type="text" name="str">
         </div>
-        <div class="form-group"> <!-- Gruppe für PLZ -->
+        <div class="form-group">
             <label>PLZ</label>
-            <input type="text" name="plz"> <!-- Optionales Feld für die PLZ -->
+            <input type="text" name="plz">
         </div>
-        <div class="form-group"> <!-- Gruppe für Stadt -->
+        <div class="form-group">
             <label>Stadt</label>
-            <input type="text" name="ort"> <!-- Optionales Feld für die Stadt -->
+            <input type="text" name="ort">
         </div>
-        <!-- Absende-Button mit übersetztem Text -->
-        <button type="submit" class="btn-submit"><?php echo t('submit'); ?></button>
+        <button type="submit" class="btn-submit">Registrieren</button>
     </form>
+    <p style="text-align: center; margin-top: 15px;">
+        Bereits registriert? <a href="login.php">Zum Login</a>
+    </p>
 </section>
 
-<?php 
-// Bindet den Fußbereich der Webseite ein
-include 'footer.php'; 
-?>
+<?php include 'footer.php'; ?>
