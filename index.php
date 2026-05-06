@@ -9,7 +9,7 @@ include 'header.php';
 <section class="hero">
     <div class="container">
         <h1>Willkommen bei BESE.CO</h1>
-        <p>Entdecke unsere handgefertigten Besen aus dem Schwabenland - Qualitaet seit Generationen!</p>
+        <p>Entdecke unsere handgefertigten Besen aus dem Schwabenland - Qualität seit Generationen!</p>
         <a href="products.php" class="btn">Jetzt einkaufen</a>
     </div>
 </section>
@@ -23,7 +23,7 @@ include 'header.php';
         <div class="feature-card">
             <div style="font-size: 50px;">&#127795;</div>
             <h3>Nachhaltig</h3>
-            <p>Natuerliche Materialien aus dem Schwarzwald.</p>
+            <p>Natürliche Materialien aus dem Schwarzwald.</p>
         </div>
         <div class="feature-card">
             <div style="font-size: 50px;">&#129330;</div>
@@ -33,7 +33,7 @@ include 'header.php';
         <div class="feature-card">
             <div style="font-size: 50px;">&#9889;</div>
             <h3>Schnelle Lieferung</h3>
-            <p>Zuverlaessig und puenktlich bei dir.</p>
+            <p>Zuverlässig und pünktlich bei dir.</p>
         </div>
     </div>
 </section>

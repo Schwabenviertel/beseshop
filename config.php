@@ -1,6 +1,6 @@
 <?php
 /**
- * Konfigurationsdatei fuer den BESE.CO Webshop.
+ * Konfigurationsdatei für den BESE.CO Webshop.
  * Stellt die Datenbankverbindung via PDO her und startet die Session.
  *
  * Voraussetzung: XAMPP mit Apache und MySQL muss laufen.
@@ -9,7 +9,7 @@
 
 session_start();
 
-// Datenbank-Zugangsdaten (Standard fuer XAMPP)
+// Datenbank-Zugangsdaten (Standard für XAMPP)
 $host    = 'localhost';
 $db      = 'beseshop';
 $user    = 'root';

@@ -1,8 +1,8 @@
 <?php
 /**
- * Produktuebersichtsseite des BESE.CO Webshops.
- * Laedt alle Produkte aus der Datenbank und zeigt sie tabellarisch an.
- * Ueber den "Bestellen"-Button gelangt der Kunde direkt zum Checkout.
+ * Produktübersichtsseite des BESE.CO Webshops.
+ * Lädt alle Produkte aus der Datenbank und zeigt sie tabellarisch an.
+ * Über den "In den Warenkorb"-Button kann der Kunde Produkte zum Warenkorb hinzufügen.
  */
 include 'header.php';
 
@@ -29,6 +29,7 @@ if ($pdo) {
                 <th>Name</th>
                 <th>Beschreibung</th>
                 <th>Preis</th>
+                <th>Verfügbar</th>
                 <th>Aktion</th>
             </tr>
         </thead>
@@ -41,9 +42,25 @@ if ($pdo) {
                 <td><?php echo htmlspecialchars($p['description']); ?></td>
                 <td><?php echo number_format($p['price'], 2, ',', '.'); ?> &euro;</td>
                 <td>
-                    <a href="order.php?product_id=<?php echo $p['id']; ?>" class="btn" style="padding: 5px 10px; font-size: 12px;">
-                        Bestellen
-                    </a>
+                    <?php if ($p['stock'] <= 0): ?>
+                        <span style="color: #c0392b; font-weight: bold;">Ausverkauft</span>
+                    <?php elseif ($p['stock'] <= 5): ?>
+                        <span style="color: #c0392b; font-weight: bold;"><?php echo $p['stock']; ?> Stk.</span>
+                    <?php else: ?>
+                        <?php echo $p['stock']; ?> Stk.
+                    <?php endif; ?>
+                </td>
+                <td>
+                    <?php if (isset($_SESSION['customer_id'])): ?>
+                        <form action="cart.php" method="POST" style="display:inline; max-width:none; margin:0; padding:0; background:none;">
+                            <input type="hidden" name="action" value="add">
+                            <input type="hidden" name="product_id" value="<?php echo $p['id']; ?>">
+                            <input type="hidden" name="menge" value="1">
+                            <button type="submit" class="btn btn-cart-add">In den Warenkorb</button>
+                        </form>
+                    <?php else: ?>
+                        <a href="login.php" class="btn" style="padding: 5px 10px; font-size: 12px;">Einloggen</a>
+                    <?php endif; ?>
                 </td>
             </tr>
             <?php endforeach; ?>

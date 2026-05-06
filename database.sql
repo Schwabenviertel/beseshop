@@ -1,9 +1,9 @@
 -- ============================================
--- Datenbank-Schema fuer den BESE.CO Webshop
+-- Datenbank-Schema für den BESE.CO Webshop
 -- ============================================
 -- Anleitung:
 -- 1. XAMPP starten (Apache + MySQL)
--- 2. phpMyAdmin oeffnen (http://localhost/phpmyadmin)
+-- 2. phpMyAdmin öffnen (http://localhost/phpmyadmin)
 -- 3. Diese Datei importieren (Tab "Importieren")
 -- ============================================
 
@@ -43,14 +43,15 @@ CREATE TABLE IF NOT EXISTS products (
 
 -- ============================================
 -- Tabelle: orders (Bestellungen)
--- Verknuepft Kunden mit Produkten (Beziehungstabelle).
--- Fremdschluessel verweisen auf customers und products.
+-- Verknüpft Kunden mit Produkten (Beziehungstabelle).
+-- Fremdschlüssel verweisen auf customers und products.
 -- ============================================
 CREATE TABLE IF NOT EXISTS orders (
     id INT AUTO_INCREMENT PRIMARY KEY,
     customer_id INT NOT NULL,
     product_id INT NOT NULL,
     quantity INT DEFAULT 1,
+    payment_method VARCHAR(50) NOT NULL DEFAULT 'Rechnung',
     order_date TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     FOREIGN KEY (customer_id) REFERENCES customers(id),
     FOREIGN KEY (product_id) REFERENCES products(id)
@@ -60,22 +61,22 @@ CREATE TABLE IF NOT EXISTS orders (
 -- Beispieldaten: Produkte
 -- ============================================
 INSERT INTO products (product_number, name, description, price, stock) VALUES
-('B001', 'Stubenbesen Kehrwisch', 'Der Klassiker fuer die gute Stube. Handgefertigt aus echtem Rosshaar.', 24.99, 50),
-('B002', 'Strassenbesen Grober Heiner', 'Fuer den groben Dreck vor der Haustuer. Stabil und langlebig.', 19.50, 30),
-('B003', 'Handfeger Zackig', 'Klein aber fein! Ideal fuer die kleinen Ecken.', 9.99, 100),
-('B004', 'Industriebesen Meister', 'Fuer Werkstatt und Halle. Extra breiter Besenkopf.', 34.99, 20),
-('B005', 'Kinderbesen Mini', 'Der kleine Helfer fuer die Kleinen. Kindgerechte Groesse.', 12.99, 40);
+('B001', 'Stubenbesen Kehrwisch', 'Der Klassiker für die gute Stube. Handgefertigt aus echtem Rosshaar.', 24.99, 12),
+('B002', 'Straßenbesen Grober Heiner', 'Für den groben Dreck vor der Haustür. Stabil und langlebig.', 19.50, 8),
+('B003', 'Handfeger Zackig', 'Klein aber fein! Ideal für die kleinen Ecken.', 9.99, 25),
+('B004', 'Industriebesen Meister', 'Für Werkstatt und Halle. Extra breiter Besenkopf.', 34.99, 5),
+('B005', 'Kinderbesen Mini', 'Der kleine Helfer für die Kleinen. Kindgerechte Größe.', 12.99, 15);
 
 -- ============================================
 -- Beispieldaten: Kunden
 -- Passwort ist "passwort123" (gehasht mit password_hash)
 -- ============================================
 INSERT INTO customers (customer_number, first_name, last_name, email, password, street, zip_code, city) VALUES
-('K10001', 'Max', 'Mustermann', 'max@mustermann.de', '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi', 'Musterstrasse 1', '70173', 'Stuttgart'),
-('K10002', 'Anna', 'Schmidt', 'anna@schmidt.de', '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi', 'Hauptstrasse 5', '80331', 'Muenchen');
+('K10001', 'Max', 'Mustermann', 'max@mustermann.de', '$2y$12$PrD7KxENP4tHCsiNjvw3U.zfQQoxMFQ/KMc2AAVkJJR8jxYNY7mFy', 'Musterstraße 1', '70173', 'Stuttgart'),
+('K10002', 'Anna', 'Schmidt', 'anna@schmidt.de', '$2y$12$PrD7KxENP4tHCsiNjvw3U.zfQQoxMFQ/KMc2AAVkJJR8jxYNY7mFy', 'Hauptstraße 5', '80331', 'München');
 
 -- ============================================
--- Beispiel SQL-Abfragen (fuer Dokumentation/Tests)
+-- Beispiel SQL-Abfragen (für Dokumentation/Tests)
 -- ============================================
 
 -- Alle Produkte anzeigen:

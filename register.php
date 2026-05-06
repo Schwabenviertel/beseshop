@@ -1,7 +1,7 @@
 <?php
 /**
- * Registrierungsseite fuer Neukunden.
- * Der Kunde gibt seine persoenlichen Daten ein.
+ * Registrierungsseite für Neukunden.
+ * Der Kunde gibt seine persönlichen Daten ein.
  * Nach erfolgreicher Registrierung wird automatisch eine Kundennummer
  * generiert und der Kunde eingeloggt.
  */
@@ -23,14 +23,14 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && $pdo) {
     // Eindeutige Kundennummer erzeugen (z.B. K12345)
     $k_nr = "K" . rand(10000, 99999);
 
-    // Pruefen ob E-Mail bereits vergeben ist
+    // Prüfen ob E-Mail bereits vergeben ist
     $stmt = $pdo->prepare("SELECT id FROM customers WHERE email = ?");
     $stmt->execute([$mail]);
     if ($stmt->fetch()) {
         $error = "Diese E-Mail-Adresse ist bereits registriert!";
     } else {
         try {
-            // Neuen Kunden in die Datenbank einfuegen
+            // Neuen Kunden in die Datenbank einfügen
             $sql = "INSERT INTO customers (customer_number, first_name, last_name, email, password, street, zip_code, city) 
                     VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
             $stmt = $pdo->prepare($sql);
@@ -78,16 +78,16 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && $pdo) {
             <input type="password" name="pw" required>
         </div>
         <div class="form-group">
-            <label>Strasse</label>
-            <input type="text" name="str">
+            <label>Straße</label>
+            <input type="text" name="str" required>
         </div>
         <div class="form-group">
             <label>PLZ</label>
-            <input type="text" name="plz">
+            <input type="text" name="plz" required>
         </div>
         <div class="form-group">
             <label>Stadt</label>
-            <input type="text" name="ort">
+            <input type="text" name="ort" required>
         </div>
         <button type="submit" class="btn-submit">Registrieren</button>
     </form>

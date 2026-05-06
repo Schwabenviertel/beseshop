@@ -1,45 +1,59 @@
 <?php
 /**
- * Bestellbestaetigungsseite des BESE.CO Webshops.
+ * Bestellbestätigungsseite des BESE.CO Webshops.
  * Wird nach erfolgreichem Checkout angezeigt und zeigt alle Details:
- * Bestellnummer, Produkt, Menge, Preis, Lieferadresse und Zahlungsmethode.
- * Nur der jeweilige Kunde kann seine eigene Bestellung einsehen.
+ * Bestellnummer(n), Produkte, Mengen, Preise, Lieferadresse und Zahlungsmethode.
+ * Unterstützt sowohl Einzel- als auch Mehrfachbestellungen (Warenkorb).
  */
 include 'header.php';
 
-// Nur eingeloggte Kunden duerfen diese Seite sehen
 if (!isset($_SESSION['customer_id'])) {
     header("Location: login.php");
     exit;
 }
 
-$order = null;
-$order_id = (int)($_GET['id'] ?? 0);
-$zahlungsart = $_SESSION['last_payment'] ?? 'Nicht angegeben';
+$orders = [];
+$customer = null;
+$total = 0;
 
-// Bestelldaten inkl. Produkt- und Kundendaten laden
-if ($order_id > 0 && $pdo) {
+$order_id = (int)($_GET['id'] ?? 0);
+$order_ids = $_SESSION['last_order_ids'] ?? [];
+
+if ($order_id > 0) {
+    $order_ids = [$order_id];
+}
+
+if (!empty($order_ids) && $pdo) {
+    $placeholders = implode(',', array_fill(0, count($order_ids), '?'));
     $stmt = $pdo->prepare("
-        SELECT o.id, o.quantity, o.order_date,
+        SELECT o.id, o.quantity, o.order_date, o.payment_method,
                p.name AS product_name, p.product_number, p.price,
                c.first_name, c.last_name, c.email, c.customer_number,
                c.street, c.zip_code, c.city
         FROM orders o
         JOIN products p ON o.product_id = p.id
         JOIN customers c ON o.customer_id = c.id
-        WHERE o.id = ? AND o.customer_id = ?
+        WHERE o.id IN ($placeholders) AND o.customer_id = ?
+        ORDER BY o.id
     ");
-    $stmt->execute([$order_id, $_SESSION['customer_id']]);
-    $order = $stmt->fetch();
+    $params = array_merge($order_ids, [$_SESSION['customer_id']]);
+    $stmt->execute($params);
+    $orders = $stmt->fetchAll();
+
+    if (!empty($orders)) {
+        $customer = $orders[0];
+        foreach ($orders as $o) {
+            $total += $o['price'] * $o['quantity'];
+        }
+    }
+
+    unset($_SESSION['last_order_ids']);
 }
 
-// Falls keine gueltige Bestellung gefunden, zurueck zum Checkout
-if (!$order) {
+if (empty($orders)) {
     header("Location: order.php");
     exit;
 }
-
-$total = $order['price'] * $order['quantity'];
 ?>
 
 <section class="container">
@@ -47,32 +61,41 @@ $total = $order['price'] * $order['quantity'];
         <div class="confirmation-header">
             <span class="confirmation-icon">&#10003;</span>
             <h2>Bestellung erfolgreich!</h2>
-            <p>Vielen Dank fuer Ihre Bestellung, <?php echo htmlspecialchars($order['first_name']); ?>.</p>
+            <p>Vielen Dank für Ihre Bestellung, <?php echo htmlspecialchars($customer['first_name']); ?>.</p>
         </div>
 
         <div class="confirmation-grid">
             <div class="confirmation-card">
                 <h3>Bestelldetails</h3>
-                <div class="detail-row">
-                    <span>Bestellnummer</span>
-                    <strong>#<?php echo str_pad($order['id'], 5, '0', STR_PAD_LEFT); ?></strong>
-                </div>
-                <div class="detail-row">
-                    <span>Datum</span>
-                    <span><?php echo date('d.m.Y, H:i', strtotime($order['order_date'])); ?> Uhr</span>
-                </div>
-                <div class="detail-row">
-                    <span>Produkt</span>
-                    <span><?php echo htmlspecialchars($order['product_name']); ?> (<?php echo htmlspecialchars($order['product_number']); ?>)</span>
-                </div>
-                <div class="detail-row">
-                    <span>Menge</span>
-                    <span><?php echo $order['quantity']; ?></span>
-                </div>
-                <div class="detail-row">
-                    <span>Einzelpreis</span>
-                    <span><?php echo number_format($order['price'], 2, ',', '.'); ?> &euro;</span>
-                </div>
+                <?php foreach ($orders as $i => $order): ?>
+                    <?php if (count($orders) > 1 && $i > 0): ?>
+                        <hr style="margin: 15px 0; border: none; border-top: 1px solid #ddd;">
+                    <?php endif; ?>
+                    <div class="detail-row">
+                        <span>Bestellnummer</span>
+                        <strong>#<?php echo str_pad($order['id'], 5, '0', STR_PAD_LEFT); ?></strong>
+                    </div>
+                    <div class="detail-row">
+                        <span>Datum</span>
+                        <span><?php echo date('d.m.Y, H:i', strtotime($order['order_date'])); ?> Uhr</span>
+                    </div>
+                    <div class="detail-row">
+                        <span>Produkt</span>
+                        <span><?php echo htmlspecialchars($order['product_name']); ?> (<?php echo htmlspecialchars($order['product_number']); ?>)</span>
+                    </div>
+                    <div class="detail-row">
+                        <span>Menge</span>
+                        <span><?php echo $order['quantity']; ?></span>
+                    </div>
+                    <div class="detail-row">
+                        <span>Einzelpreis</span>
+                        <span><?php echo number_format($order['price'], 2, ',', '.'); ?> &euro;</span>
+                    </div>
+                    <div class="detail-row">
+                        <span>Zwischensumme</span>
+                        <strong><?php echo number_format($order['price'] * $order['quantity'], 2, ',', '.'); ?> &euro;</strong>
+                    </div>
+                <?php endforeach; ?>
                 <div class="detail-row detail-total">
                     <span>Gesamtbetrag</span>
                     <strong><?php echo number_format($total, 2, ',', '.'); ?> &euro;</strong>
@@ -82,25 +105,25 @@ $total = $order['price'] * $order['quantity'];
             <div class="confirmation-card">
                 <h3>Lieferadresse</h3>
                 <div class="address-block">
-                    <p><?php echo htmlspecialchars($order['first_name'] . ' ' . $order['last_name']); ?></p>
-                    <p><?php echo htmlspecialchars($order['street'] ?: 'Keine Strasse angegeben'); ?></p>
-                    <p><?php echo htmlspecialchars(($order['zip_code'] ?: '') . ' ' . ($order['city'] ?: 'Keine Stadt angegeben')); ?></p>
+                    <p><?php echo htmlspecialchars($customer['first_name'] . ' ' . $customer['last_name']); ?></p>
+                    <p><?php echo htmlspecialchars($customer['street'] ?: 'Keine Straße angegeben'); ?></p>
+                    <p><?php echo htmlspecialchars(($customer['zip_code'] ?: '') . ' ' . ($customer['city'] ?: 'Keine Stadt angegeben')); ?></p>
                 </div>
 
                 <h3 style="margin-top: 25px;">Kundendaten</h3>
                 <div class="detail-row">
                     <span>Kundennummer</span>
-                    <span><?php echo htmlspecialchars($order['customer_number']); ?></span>
+                    <span><?php echo htmlspecialchars($customer['customer_number']); ?></span>
                 </div>
                 <div class="detail-row">
                     <span>E-Mail</span>
-                    <span><?php echo htmlspecialchars($order['email']); ?></span>
+                    <span><?php echo htmlspecialchars($customer['email']); ?></span>
                 </div>
 
                 <h3 style="margin-top: 25px;">Zahlungsmethode</h3>
                 <div class="detail-row">
                     <span>Bezahlung</span>
-                    <span><?php echo htmlspecialchars($zahlungsart); ?></span>
+                    <span><?php echo htmlspecialchars($customer['payment_method']); ?></span>
                 </div>
             </div>
         </div>

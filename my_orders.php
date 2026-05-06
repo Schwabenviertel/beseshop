@@ -1,11 +1,11 @@
 <?php
 /**
- * Bestelluebersicht des eingeloggten Kunden.
- * Zeigt alle bisherigen Bestellungen an und ermoeglicht die Stornierung.
+ * Bestellübersicht des eingeloggten Kunden.
+ * Zeigt alle bisherigen Bestellungen an und ermöglicht die Stornierung.
  */
 include 'header.php';
 
-// Nur eingeloggte Kunden duerfen diese Seite sehen
+// Nur eingeloggte Kunden dürfen diese Seite sehen
 if (!isset($_SESSION['customer_id'])) {
     header("Location: login.php");
     exit;
@@ -19,14 +19,14 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['cancel_order_id']) && 
     $cancel_id = (int)$_POST['cancel_order_id'];
     $customer_id = $_SESSION['customer_id'];
 
-    // Bestellung laden und pruefen, ob sie dem Kunden gehoert
+    // Bestellung laden und prüfen, ob sie dem Kunden gehört
     $stmt = $pdo->prepare("SELECT o.id, o.quantity, o.product_id FROM orders o WHERE o.id = ? AND o.customer_id = ?");
     $stmt->execute([$cancel_id, $customer_id]);
     $cancel_order = $stmt->fetch();
 
     if ($cancel_order) {
         try {
-            // Transaktion: Bestellung loeschen und Lagerbestand wiederherstellen
+            // Transaktion: Bestellung löschen und Lagerbestand wiederherstellen
             $pdo->beginTransaction();
             $stmt = $pdo->prepare("DELETE FROM orders WHERE id = ?");
             $stmt->execute([$cancel_id]);
@@ -47,7 +47,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['cancel_order_id']) && 
 $orders = [];
 if ($pdo) {
     $stmt = $pdo->prepare("
-        SELECT o.id, o.quantity, o.order_date,
+        SELECT o.id, o.quantity, o.order_date, o.payment_method,
                p.name AS product_name, p.product_number, p.price
         FROM orders o
         JOIN products p ON o.product_id = p.id
@@ -92,6 +92,7 @@ if ($pdo) {
                             <div class="order-details">
                                 <span>Menge: <?php echo $o['quantity']; ?></span>
                                 <span><?php echo number_format($o['price'], 2, ',', '.'); ?> &euro;/Stk.</span>
+                                <span class="order-payment"><?php echo htmlspecialchars($o['payment_method']); ?></span>
                                 <strong><?php echo number_format($o['price'] * $o['quantity'], 2, ',', '.'); ?> &euro;</strong>
                                 <form action="my_orders.php" method="POST" class="cancel-form" onsubmit="return confirm('Bestellung #<?php echo str_pad($o['id'], 5, '0', STR_PAD_LEFT); ?> wirklich stornieren?');">
                                     <input type="hidden" name="cancel_order_id" value="<?php echo $o['id']; ?>">
