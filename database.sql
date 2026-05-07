@@ -17,11 +17,16 @@
 CREATE DATABASE IF NOT EXISTS beseshop;
 USE beseshop;
 
+-- Alte Tabellen löschen (Reihenfolge wegen Fremdschlüssel)
+DROP TABLE IF EXISTS orders;
+DROP TABLE IF EXISTS products;
+DROP TABLE IF EXISTS customers;
+
 -- ============================================
 -- Tabelle: customers (Kunden)
 -- Speichert die Daten registrierter Kunden.
 -- ============================================
-CREATE TABLE IF NOT EXISTS customers (
+CREATE TABLE customers (
     id INT AUTO_INCREMENT PRIMARY KEY,
     customer_number VARCHAR(20) UNIQUE NOT NULL,
     first_name VARCHAR(50) NOT NULL,
@@ -38,7 +43,7 @@ CREATE TABLE IF NOT EXISTS customers (
 -- Tabelle: products (Produkte/Artikel)
 -- Speichert alle angebotenen Besen mit Preis und Bestand.
 -- ============================================
-CREATE TABLE IF NOT EXISTS products (
+CREATE TABLE products (
     id INT AUTO_INCREMENT PRIMARY KEY,
     product_number VARCHAR(20) UNIQUE NOT NULL,
     name VARCHAR(100) NOT NULL,
@@ -52,7 +57,7 @@ CREATE TABLE IF NOT EXISTS products (
 -- Verknüpft Kunden mit Produkten (Beziehungstabelle).
 -- Fremdschlüssel verweisen auf customers und products.
 -- ============================================
-CREATE TABLE IF NOT EXISTS orders (
+CREATE TABLE orders (
     id INT AUTO_INCREMENT PRIMARY KEY,
     customer_id INT NOT NULL,
     product_id INT NOT NULL,
