@@ -1,5 +1,6 @@
 # PROJEKTDOKUMENTATION: BESE.CO Webshop
 ## Entwicklung einer E-Commerce Plattform für schwäbische Besen
+### Für eine bessere Übersicht wird empfohlen sich die Dokumentation über https://github.com/Schwabenviertel/beseshop/blob/main/DOKUMENTATION.md anzusehen
 
 **Fach:** Webentwicklung (HTML5, CSS3, PHP 8.x, MySQL)  
 **Datum:** 05. Mai 2026  
