@@ -1,5 +1,11 @@
 <?php
 /**
+ *                           _  __            _
+ *  _ __ ___  _   _ ___  ___(_)/ _| __ _ _ __(_)
+ * | '_ ` _ \| | | / __|/ __| | |_ / _` | '__| |
+ * | | | | | | |_| \__ \ (__| |  _| (_| | |  | |
+ * |_| |_| |_|\__,_|___/\___|_|_|  \__,_|_|  |_|
+ *
  * Login-Seite für registrierte Kunden.
  * Prüft E-Mail und Passwort gegen die Datenbank.
  * Bei Erfolg wird die Session gesetzt und zum Produktkatalog weitergeleitet.
@@ -26,13 +32,13 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && $pdo) {
         header("Location: products.php");
         exit;
     } else {
-        $error = "E-Mail oder Passwort falsch!";
+        $error = "E-Mail oder Passwort falsch, du Seggl!";
     }
 }
 ?>
 
 <section class="container">
-    <h2 style="text-align: center; margin-top: 40px;">Login</h2>
+    <h2 style="text-align: center; margin-top: 40px;">Eilogga</h2>
 
     <?php if ($error): ?>
         <div class="alert alert-error"><?php echo htmlspecialchars($error); ?></div>
@@ -47,10 +53,10 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && $pdo) {
             <label>Passwort</label>
             <input type="password" name="pw" required>
         </div>
-        <button type="submit" class="btn-submit">Einloggen</button>
+        <button type="submit" class="btn-submit">Eilogga</button>
     </form>
     <p style="text-align: center; margin-top: 15px;">
-        Noch kein Konto? <a href="register.php">Jetzt registrieren</a>
+        No koi Konto? <a href="register.php">Jetzd regischdriera</a>
     </p>
 </section>
 

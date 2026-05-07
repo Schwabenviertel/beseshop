@@ -1,5 +1,11 @@
 <?php
 /**
+ *                           _  __            _
+ *  _ __ ___  _   _ ___  ___(_)/ _| __ _ _ __(_)
+ * | '_ ` _ \| | | / __|/ __| | |_ / _` | '__| |
+ * | | | | | | |_| \__ \ (__| |  _| (_| | |  | |
+ * |_| |_| |_|\__,_|___/\___|_|_|  \__,_|_|  |_|
+ *
  * Checkout-Seite des BESE.CO Webshops.
  * Unterstützt sowohl Einzelprodukt-Bestellung als auch Warenkorb-Checkout.
  * Der Kunde wählt eine Zahlungsmethode und bestätigt die Bestellung.
@@ -28,7 +34,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && $pdo) {
     $customer_id = $_SESSION['customer_id'];
 
     if (empty($zahlungsart)) {
-        $error = "Bitte eine Zahlungsmethode auswählen.";
+        $error = "Bitte a Zahlungsmethode auswähla.";
     } else {
         $order_ids = [];
 
@@ -49,7 +55,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && $pdo) {
                         $stmt->execute([$qty, $pid]);
                     } else {
                         $pdo->rollBack();
-                        $error = "Ein oder mehrere Produkte sind nicht mehr in ausreichender Menge verfügbar.";
+                        $error = "Oi oder mehrere Produkd send nemme en ausreichender Meng do.";
                         break;
                     }
                 }
@@ -67,7 +73,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && $pdo) {
 
                 if ($product_id <= 0 || $menge <= 0) {
                     $pdo->rollBack();
-                    $error = "Bitte Produkt und Menge auswählen.";
+                    $error = "Bitte Produkd ond Meng auswähla.";
                 } else {
                     $stmt = $pdo->prepare("SELECT * FROM products WHERE id = ? AND stock >= ?");
                     $stmt->execute([$product_id, $menge]);
@@ -85,16 +91,16 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && $pdo) {
                         exit;
                     } else {
                         $pdo->rollBack();
-                        $error = "Produkt nicht verfügbar oder nicht genug auf Lager.";
+                        $error = "Produkd ned verfügbar oder ned gnug uf Lager.";
                     }
                 }
             } else {
                 $pdo->rollBack();
-                $error = "Keine Artikel zum Bestellen vorhanden.";
+                $error = "Koine Ardikel zum Bschdella do.";
             }
         } catch (PDOException $e) {
             $pdo->rollBack();
-            $error = "Fehler bei der Bestellung. Bitte erneut versuchen.";
+            $error = "Fehler bei dr Bschdelllung. Bitte nomal brobiara.";
         }
     }
 }
@@ -134,8 +140,8 @@ if (!$has_cart && $selected_product_id && $pdo) {
 
 <section class="container">
     <div class="checkout-wrapper">
-        <h2 class="checkout-title">Checkout</h2>
-        <p class="checkout-subtitle">Eingeloggt als <strong><?php echo htmlspecialchars($_SESSION['customer_name']); ?></strong> (<?php echo htmlspecialchars($_SESSION['customer_number']); ?>)</p>
+        <h2 class="checkout-title">Kass</h2>
+        <p class="checkout-subtitle">Eigloggd als <strong><?php echo htmlspecialchars($_SESSION['customer_name']); ?></strong> (<?php echo htmlspecialchars($_SESSION['customer_number']); ?>)</p>
 
         <?php if ($msg): ?>
             <div class="alert alert-success"><?php echo $msg; ?></div>
@@ -148,7 +154,7 @@ if (!$has_cart && $selected_product_id && $pdo) {
 
             <?php if ($has_cart && !empty($checkout_items)): ?>
                 <div class="checkout-section">
-                    <h3 class="section-heading">1. Ihre Artikel</h3>
+                    <h3 class="section-heading">1. Deine Ardikel</h3>
                     <div class="checkout-items-list">
                         <?php foreach ($checkout_items as $item): ?>
                             <div class="checkout-item-row">
@@ -158,15 +164,15 @@ if (!$has_cart && $selected_product_id && $pdo) {
                             </div>
                         <?php endforeach; ?>
                     </div>
-                    <p style="text-align: right; margin-top: 10px;"><a href="cart.php" style="font-size: 13px; color: var(--muted);">Warenkorb bearbeiten</a></p>
+                    <p style="text-align: right; margin-top: 10px;"><a href="cart.php" style="font-size: 13px; color: var(--muted);">Warakorb bearbeida</a></p>
                 </div>
             <?php else: ?>
                 <div class="checkout-section">
-                    <h3 class="section-heading">1. Produkt auswählen</h3>
+                    <h3 class="section-heading">1. Produkd auswähla</h3>
                     <div class="form-group">
-                        <label>Produkt</label>
+                        <label>Produkd</label>
                         <select name="product_id" id="product-select" required>
-                            <option value="">-- Produkt wählen --</option>
+                            <option value="">-- Produkd wähla --</option>
                             <?php foreach ($products as $p): ?>
                                 <option value="<?php echo $p['id']; ?>"
                                     data-price="<?php echo $p['price']; ?>"
@@ -174,12 +180,13 @@ if (!$has_cart && $selected_product_id && $pdo) {
                                     data-name="<?php echo htmlspecialchars($p['name']); ?>"
                                     <?php echo ($selected_product && $p['id'] == $selected_product['id']) ? 'selected' : ''; ?>>
                                     <?php echo htmlspecialchars($p['name']); ?> (<?php echo $p['product_number']; ?>) - <?php echo number_format($p['price'], 2, ',', '.'); ?> &euro; (<?php echo $p['stock']; ?> verfügbar)
+
                                 </option>
                             <?php endforeach; ?>
                         </select>
                     </div>
                     <div class="form-group">
-                        <label>Menge</label>
+                        <label>Meng</label>
                         <input type="number" name="menge" id="menge-input" value="1" min="1" max="<?php echo $selected_product ? $selected_product['stock'] : 99; ?>" required>
                         <p id="stock-warning" class="stock-warning" style="display: none;"></p>
                     </div>
@@ -188,13 +195,14 @@ if (!$has_cart && $selected_product_id && $pdo) {
 
             <div class="checkout-section">
                 <h3 class="section-heading">2. Zahlungsmethode</h3>
+
                 <div class="payment-options">
                     <label class="payment-option">
                         <input type="radio" name="zahlungsart" value="Rechnung" required>
                         <div class="payment-card">
                             <span class="payment-icon">&#128196;</span>
                             <span class="payment-label">Rechnung</span>
-                            <span class="payment-desc">Zahlung innerhalb 14 Tage</span>
+                            <span class="payment-desc">Zahlung innerhalb 14 Dag</span>
                         </div>
                     </label>
                     <label class="payment-option">
@@ -202,7 +210,7 @@ if (!$has_cart && $selected_product_id && $pdo) {
                         <div class="payment-card">
                             <span class="payment-icon">&#128179;</span>
                             <span class="payment-label">PayPal</span>
-                            <span class="payment-desc">Sofortige Bezahlung</span>
+                            <span class="payment-desc">Sofordige Bezahlung</span>
                         </div>
                     </label>
                     <label class="payment-option">
@@ -218,14 +226,15 @@ if (!$has_cart && $selected_product_id && $pdo) {
                         <div class="payment-card">
                             <span class="payment-icon">&#127974;</span>
                             <span class="payment-label">Vorkasse</span>
-                            <span class="payment-desc">Überweisung vorab</span>
+                            <span class="payment-desc">Überweisung vorab
+</span>
                         </div>
                     </label>
                 </div>
             </div>
 
             <div class="checkout-section">
-                <h3 class="section-heading">3. Zusammenfassung</h3>
+                <h3 class="section-heading">3. Zammafassung</h3>
                 <div class="order-summary">
                     <?php if ($has_cart && !empty($checkout_items)): ?>
                         <?php foreach ($checkout_items as $item): ?>
@@ -235,31 +244,32 @@ if (!$has_cart && $selected_product_id && $pdo) {
                             </div>
                         <?php endforeach; ?>
                         <div class="summary-row summary-total">
-                            <span>Gesamt</span>
+                            <span>Gsamd</span>
                             <span><?php echo number_format($checkout_total, 2, ',', '.'); ?> &euro;</span>
                         </div>
                     <?php else: ?>
                         <div class="summary-row">
-                            <span>Produkt</span>
+                            <span>Produkd</span>
                             <span id="summary-product">-</span>
                         </div>
                         <div class="summary-row">
-                            <span>Menge</span>
+                            <span>Meng</span>
                             <span id="summary-qty">1</span>
                         </div>
                         <div class="summary-row">
                             <span>Einzelpreis</span>
+
                             <span id="summary-price">-</span>
                         </div>
                         <div class="summary-row summary-total">
-                            <span>Gesamt</span>
+                            <span>Gsamd</span>
                             <span id="summary-total">-</span>
                         </div>
                     <?php endif; ?>
                 </div>
             </div>
 
-            <button type="submit" class="btn-submit btn-checkout">Jetzt bestellen</button>
+            <button type="submit" class="btn-submit btn-checkout">Jetzd bschdella</button>
         </form>
     </div>
 </section>
@@ -291,10 +301,10 @@ if (!$has_cart && $selected_product_id && $pdo) {
             summaryTotal.textContent = (price * menge).toFixed(2).replace('.', ',') + ' \u20AC';
 
             if (menge >= stock) {
-                stockWarning.textContent = 'Sie haben die maximale Anzahl erreicht (' + stock + ' Stk. verfügbar)';
+                stockWarning.textContent = 'Du hosch die maximale Aazahl erreicht (' + stock + ' Stk. do)';
                 stockWarning.style.display = 'block';
             } else if (stock <= 5) {
-                stockWarning.textContent = 'Nur noch ' + stock + ' Stk. verfügbar!';
+                stockWarning.textContent = 'Bloß no ' + stock + ' Stk. do!';
                 stockWarning.style.display = 'block';
             } else {
                 stockWarning.style.display = 'none';

@@ -1,6 +1,12 @@
 <?php
 /**
- * Konfigurationsdatei für den BESE.CO Webshop.
+ *                           _  __            _
+ *  _ __ ___  _   _ ___  ___(_)/ _| __ _ _ __(_)
+ * | '_ ` _ \| | | / __|/ __| | |_ / _` | '__| |
+ * | | | | | | |_| \__ \ (__| |  _| (_| | |  | |
+ * |_| |_| |_|\__,_|___/\___|_|_|  \__,_|_|  |_|
+ *
+ * BESE.CO Webshop - Konfigurationsdatei
  * Stellt die Datenbankverbindung via PDO her und startet die Session.
  *
  * Voraussetzung: XAMPP mit Apache und MySQL muss laufen.

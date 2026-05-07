@@ -1,5 +1,11 @@
 <?php
 /**
+ *                           _  __            _
+ *  _ __ ___  _   _ ___  ___(_)/ _| __ _ _ __(_)
+ * | '_ ` _ \| | | / __|/ __| | |_ / _` | '__| |
+ * | | | | | | |_| \__ \ (__| |  _| (_| | |  | |
+ * |_| |_| |_|\__,_|___/\___|_|_|  \__,_|_|  |_|
+ *
  * Bestellbestätigungsseite des BESE.CO Webshops.
  * Wird nach erfolgreichem Checkout angezeigt und zeigt alle Details:
  * Bestellnummer(n), Produkte, Mengen, Preise, Lieferadresse und Zahlungsmethode.
@@ -60,31 +66,31 @@ if (empty($orders)) {
     <div class="confirmation-wrapper">
         <div class="confirmation-header">
             <span class="confirmation-icon">&#10003;</span>
-            <h2>Bestellung erfolgreich!</h2>
-            <p>Vielen Dank für Ihre Bestellung, <?php echo htmlspecialchars($customer['first_name']); ?>.</p>
+            <h2>Bschdelllung isch durch!</h2>
+            <p>Dangschee fir dei Bschdelllung, <?php echo htmlspecialchars($customer['first_name']); ?>.</p>
         </div>
 
         <div class="confirmation-grid">
             <div class="confirmation-card">
-                <h3>Bestelldetails</h3>
+                <h3>Bschdelldetails</h3>
                 <?php foreach ($orders as $i => $order): ?>
                     <?php if (count($orders) > 1 && $i > 0): ?>
                         <hr style="margin: 15px 0; border: none; border-top: 1px solid #ddd;">
                     <?php endif; ?>
                     <div class="detail-row">
-                        <span>Bestellnummer</span>
+                        <span>Bschdellnommer</span>
                         <strong>#<?php echo str_pad($order['id'], 5, '0', STR_PAD_LEFT); ?></strong>
                     </div>
                     <div class="detail-row">
-                        <span>Datum</span>
+                        <span>Dadum</span>
                         <span><?php echo date('d.m.Y, H:i', strtotime($order['order_date'])); ?> Uhr</span>
                     </div>
                     <div class="detail-row">
-                        <span>Produkt</span>
+                        <span>Produkd</span>
                         <span><?php echo htmlspecialchars($order['product_name']); ?> (<?php echo htmlspecialchars($order['product_number']); ?>)</span>
                     </div>
                     <div class="detail-row">
-                        <span>Menge</span>
+                        <span>Meng</span>
                         <span><?php echo $order['quantity']; ?></span>
                     </div>
                     <div class="detail-row">
@@ -92,27 +98,27 @@ if (empty($orders)) {
                         <span><?php echo number_format($order['price'], 2, ',', '.'); ?> &euro;</span>
                     </div>
                     <div class="detail-row">
-                        <span>Zwischensumme</span>
+                        <span>Zwischasumm</span>
                         <strong><?php echo number_format($order['price'] * $order['quantity'], 2, ',', '.'); ?> &euro;</strong>
                     </div>
                 <?php endforeach; ?>
                 <div class="detail-row detail-total">
-                    <span>Gesamtbetrag</span>
+                    <span>Gsamdbedrag</span>
                     <strong><?php echo number_format($total, 2, ',', '.'); ?> &euro;</strong>
                 </div>
             </div>
 
             <div class="confirmation-card">
-                <h3>Lieferadresse</h3>
+                <h3>Lieferadress</h3>
                 <div class="address-block">
                     <p><?php echo htmlspecialchars($customer['first_name'] . ' ' . $customer['last_name']); ?></p>
-                    <p><?php echo htmlspecialchars($customer['street'] ?: 'Keine Straße angegeben'); ?></p>
-                    <p><?php echo htmlspecialchars(($customer['zip_code'] ?: '') . ' ' . ($customer['city'] ?: 'Keine Stadt angegeben')); ?></p>
+                    <p><?php echo htmlspecialchars($customer['street'] ?: 'Koi Schdroß aageba'); ?></p>
+                    <p><?php echo htmlspecialchars(($customer['zip_code'] ?: '') . ' ' . ($customer['city'] ?: 'Koi Schdadt aageba')); ?></p>
                 </div>
 
-                <h3 style="margin-top: 25px;">Kundendaten</h3>
+                <h3 style="margin-top: 25px;">Kundadada</h3>
                 <div class="detail-row">
-                    <span>Kundennummer</span>
+                    <span>Kundanommer</span>
                     <span><?php echo htmlspecialchars($customer['customer_number']); ?></span>
                 </div>
                 <div class="detail-row">
@@ -123,14 +129,15 @@ if (empty($orders)) {
                 <h3 style="margin-top: 25px;">Zahlungsmethode</h3>
                 <div class="detail-row">
                     <span>Bezahlung</span>
+
                     <span><?php echo htmlspecialchars($customer['payment_method']); ?></span>
                 </div>
             </div>
         </div>
 
         <div class="confirmation-actions">
-            <a href="products.php" class="btn">Weiter einkaufen</a>
-            <a href="my_orders.php" class="btn btn-secondary">Meine Bestellungen</a>
+            <a href="products.php" class="btn">Weider eikaufa</a>
+            <a href="my_orders.php" class="btn btn-secondary">Mei Bschdellonga</a>
         </div>
     </div>
 </section>

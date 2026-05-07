@@ -1,5 +1,11 @@
 <?php
 /**
+ *                           _  __            _
+ *  _ __ ___  _   _ ___  ___(_)/ _| __ _ _ __(_)
+ * | '_ ` _ \| | | / __|/ __| | |_ / _` | '__| |
+ * | | | | | | |_| \__ \ (__| |  _| (_| | |  | |
+ * |_| |_| |_|\__,_|___/\___|_|_|  \__,_|_|  |_|
+ *
  * Produktübersichtsseite des BESE.CO Webshops.
  * Lädt alle Produkte aus der Datenbank und zeigt sie tabellarisch an.
  * Über den "In den Warenkorb"-Button kann der Kunde Produkte zum Warenkorb hinzufügen.
@@ -13,24 +19,24 @@ if ($pdo) {
     $stmt = $pdo->query("SELECT * FROM products");
     $products = $stmt->fetchAll();
 } else {
-    echo "<p style='color:red; text-align:center;'>Datenbankverbindung fehlgeschlagen! Bitte database.sql in phpMyAdmin importieren.</p>";
+    echo "<p style='color:red; text-align:center;'>Databankverbindung fählgschlaga! Bitte database.sql en phpMyAdmin importiera.</p>";
 }
 ?>
 
 <section class="container">
-    <h2 style="margin: 40px 0; text-align: center;">Unsere Produkte</h2>
+    <h2 style="margin: 40px 0; text-align: center;">Onsre Produkd</h2>
 
     <?php if (!empty($products)): ?>
     <table>
         <thead>
             <tr>
-                <th>Bild</th>
-                <th>Artikelnummer</th>
+                <th>Bildla</th>
+                <th>Ardikelnommer</th>
                 <th>Name</th>
                 <th>Beschreibung</th>
                 <th>Preis</th>
                 <th>Verfügbar</th>
-                <th>Aktion</th>
+                <th>Akzion</th>
             </tr>
         </thead>
         <tbody>
@@ -43,7 +49,7 @@ if ($pdo) {
                 <td><?php echo number_format($p['price'], 2, ',', '.'); ?> &euro;</td>
                 <td>
                     <?php if ($p['stock'] <= 0): ?>
-                        <span style="color: #c0392b; font-weight: bold;">Ausverkauft</span>
+                        <span style="color: #c0392b; font-weight: bold;">Ausverkaufd</span>
                     <?php elseif ($p['stock'] <= 5): ?>
                         <span style="color: #c0392b; font-weight: bold;"><?php echo $p['stock']; ?> Stk.</span>
                     <?php else: ?>
@@ -56,10 +62,10 @@ if ($pdo) {
                             <input type="hidden" name="action" value="add">
                             <input type="hidden" name="product_id" value="<?php echo $p['id']; ?>">
                             <input type="hidden" name="menge" value="1">
-                            <button type="submit" class="btn btn-cart-add">In den Warenkorb</button>
+                            <button type="submit" class="btn btn-cart-add">En da Warakorb</button>
                         </form>
                     <?php else: ?>
-                        <a href="login.php" class="btn" style="padding: 5px 10px; font-size: 12px;">Einloggen</a>
+                        <a href="login.php" class="btn" style="padding: 5px 10px; font-size: 12px;">Eilogga</a>
                     <?php endif; ?>
                 </td>
             </tr>

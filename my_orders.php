@@ -1,5 +1,11 @@
 <?php
 /**
+ *                           _  __            _
+ *  _ __ ___  _   _ ___  ___(_)/ _| __ _ _ __(_)
+ * | '_ ` _ \| | | / __|/ __| | |_ / _` | '__| |
+ * | | | | | | |_| \__ \ (__| |  _| (_| | |  | |
+ * |_| |_| |_|\__,_|___/\___|_|_|  \__,_|_|  |_|
+ *
  * Bestellübersicht des eingeloggten Kunden.
  * Zeigt alle bisherigen Bestellungen an und ermöglicht die Stornierung.
  */
@@ -33,13 +39,13 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['cancel_order_id']) && 
             $stmt = $pdo->prepare("UPDATE products SET stock = stock + ? WHERE id = ?");
             $stmt->execute([$cancel_order['quantity'], $cancel_order['product_id']]);
             $pdo->commit();
-            $msg = "Bestellung #" . str_pad($cancel_id, 5, '0', STR_PAD_LEFT) . " wurde erfolgreich storniert.";
+            $msg = "Bschdelllung #" . str_pad($cancel_id, 5, '0', STR_PAD_LEFT) . " isch erfolgreich storniert worda.";
         } catch (PDOException $e) {
             $pdo->rollBack();
-            $error = "Fehler beim Stornieren. Bitte erneut versuchen.";
+            $error = "Fehler beim Storniara. Bitte nomal brobiara.";
         }
     } else {
-        $error = "Bestellung nicht gefunden.";
+        $error = "Bschdelllung ned gfonda.";
     }
 }
 
@@ -61,7 +67,7 @@ if ($pdo) {
 
 <section class="container">
     <div class="orders-wrapper">
-        <h2 class="orders-title">Meine Bestellungen</h2>
+        <h2 class="orders-title">Mei Bschdellonga</h2>
         <p class="orders-subtitle"><?php echo htmlspecialchars($_SESSION['customer_name']); ?> (<?php echo htmlspecialchars($_SESSION['customer_number']); ?>)</p>
 
         <?php if ($msg): ?>
@@ -73,15 +79,15 @@ if ($pdo) {
 
         <?php if (empty($orders)): ?>
             <div class="orders-empty">
-                <p>Sie haben noch keine Bestellungen aufgegeben.</p>
-                <a href="products.php" class="btn" style="margin-top: 20px;">Jetzt einkaufen</a>
+                <p>Du hosch no koi Bschdellonga gmachd.</p>
+                <a href="products.php" class="btn" style="margin-top: 20px;">Jetzd eikaufa</a>
             </div>
         <?php else: ?>
             <div class="orders-list">
                 <?php foreach ($orders as $o): ?>
                     <div class="order-item">
                         <div class="order-item-header">
-                            <span class="order-number">Bestellung #<?php echo str_pad($o['id'], 5, '0', STR_PAD_LEFT); ?></span>
+                            <span class="order-number">Bschdelllung #<?php echo str_pad($o['id'], 5, '0', STR_PAD_LEFT); ?></span>
                             <span class="order-date"><?php echo date('d.m.Y, H:i', strtotime($o['order_date'])); ?> Uhr</span>
                         </div>
                         <div class="order-item-body">
@@ -90,20 +96,20 @@ if ($pdo) {
                                 <span class="order-product-nr"><?php echo htmlspecialchars($o['product_number']); ?></span>
                             </div>
                             <div class="order-details">
-                                <span>Menge: <?php echo $o['quantity']; ?></span>
+                                <span>Meng: <?php echo $o['quantity']; ?></span>
                                 <span><?php echo number_format($o['price'], 2, ',', '.'); ?> &euro;/Stk.</span>
                                 <span class="order-payment"><?php echo htmlspecialchars($o['payment_method']); ?></span>
                                 <strong><?php echo number_format($o['price'] * $o['quantity'], 2, ',', '.'); ?> &euro;</strong>
-                                <form action="my_orders.php" method="POST" class="cancel-form" onsubmit="return confirm('Bestellung #<?php echo str_pad($o['id'], 5, '0', STR_PAD_LEFT); ?> wirklich stornieren?');">
+                                <form action="my_orders.php" method="POST" class="cancel-form" onsubmit="return confirm('Bschdelllung #<?php echo str_pad($o['id'], 5, '0', STR_PAD_LEFT); ?> wirklich storniara?');">
                                     <input type="hidden" name="cancel_order_id" value="<?php echo $o['id']; ?>">
-                                    <button type="submit" class="btn-cancel">Stornieren</button>
+                                    <button type="submit" class="btn-cancel">Storniara</button>
                                 </form>
                             </div>
                         </div>
                     </div>
                 <?php endforeach; ?>
             </div>
-            <p class="orders-count"><?php echo count($orders); ?> Bestellung<?php echo count($orders) !== 1 ? 'en' : ''; ?> insgesamt</p>
+            <p class="orders-count"><?php echo count($orders); ?> Bschdelllung<?php echo count($orders) !== 1 ? 'a' : ''; ?> insgsamt</p>
         <?php endif; ?>
     </div>
 </section>

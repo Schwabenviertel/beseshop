@@ -51,7 +51,19 @@ Das Projekt verfolgt folgende konkrete Lernziele:
 | **JavaScript** | ES6 | Live-Aktualisierung der Bestellzusammenfassung im Checkout |
 | **XAMPP** | 8.x | Lokale Entwicklungsumgebung (Apache-Webserver + MySQL-Datenbank) |
 
-### 1.5 Funktionsübersicht (Kernfeatures)
+### 1.5 Entwicklungsumgebung & Hilfsmittel
+
+| Hilfsmittel | Beschreibung |
+| :--- | :--- |
+| **WebStorm** | IDE von JetBrains für die Webentwicklung (PHP, HTML, CSS, JavaScript). Verwendet für Code-Editing, Debugging und Projektverwaltung. |
+| **Zencoder Enterprise Membership** | KI-gestützter Coding-Assistent, integriert in WebStorm. Unterstützte bei der Codeentwicklung, Fehlersuche und Dokumentationserstellung. |
+| **macOS** | Betriebssystem der Entwicklungsumgebung. |
+| **XAMPP** | Lokaler Webserver (Apache + MySQL + PHP) für die Entwicklung und das Testen der Anwendung. |
+| **phpMyAdmin** | Webbasierte Oberfläche zur Verwaltung der MySQL-Datenbank (Import, Abfragen, Datenprüfung). |
+| **Git** | Versionskontrollsystem zur Nachverfolgung aller Codeänderungen. |
+| **Figlet** | Kommandozeilen-Tool zur Erzeugung des ASCII-Art-Watermarks ("muscifari") im Quellcode. |
+
+### 1.6 Funktionsübersicht (Kernfeatures)
 - **Landingpage**: Professionelle Präsentation der Markenwerte mit Hero-Bereich und drei Verkaufsargumenten (Nachhaltig, Handgemacht, Schnelle Lieferung).
 - **Kundenregistrierung**: Formular mit Pflichtfeldern (Name, E-Mail, Passwort, Adresse). Automatische Generierung einer eindeutigen Kundennummer (z.B. K12345). Duplikatprüfung der E-Mail-Adresse.
 - **Login-System**: Session-basierte Authentifizierung. Nach dem Login werden Kundennummer und Name in der Navigation angezeigt.
@@ -323,7 +335,32 @@ Getestete Bereiche:
 
 ---
 
-## 7. Fazit & Ausblick
+## 7. Stundenaufwand
+
+Die folgende Tabelle dokumentiert den zeitlichen Aufwand jedes Teammitglieds über den gesamten Projektzeitraum:
+
+| Teammitglied | Rolle | Aufgaben | Stunden |
+| :--- | :--- | :--- | ---: |
+| **Vincent** | Projektleiter | Projektplanung, Koordination, Meilenstein-Reviews, Abnahme, Qualitätskontrolle | 18 |
+| **Angelo** | Entwickler | Datenbankdesign, Frontend & Backend-Entwicklung, Bugfixes, Deployment | 32 |
+| **Julia** | QA | Testplanung, Testdurchführung, Fehlerprotokollierung, Kommunikation mit Entwicklung | 20 |
+| | | **Gesamt** | **70** |
+
+### Aufwand nach Projektphase
+
+| Phase | Vincent | Angelo | Julia | Gesamt |
+| :--- | ---: | ---: | ---: | ---: |
+| Planung & Konzeption | 6 | 4 | 2 | 12 |
+| Datenbankdesign & Setup | 2 | 5 | 1 | 8 |
+| Frontend-Entwicklung | 2 | 8 | 2 | 12 |
+| Backend-Entwicklung | 2 | 10 | 3 | 15 |
+| Testing & Bugfixing | 4 | 4 | 10 | 18 |
+| Dokumentation & Abnahme | 2 | 1 | 2 | 5 |
+| **Gesamt** | **18** | **32** | **20** | **70** |
+
+---
+
+## 8. Fazit & Ausblick
 
 ### Fazit
 Das Projekt **BESE.CO** demonstriert erfolgreich die Umsetzung einer vollständigen CRUD-Webanwendung mit PHP und MySQL. Alle geforderten Kernfunktionen — Registrierung, Login, Produktkatalog, Warenkorb, Bestellprozess und Stornierung — sind implementiert und getestet. Besonderer Wert wurde auf Sicherheit (Prepared Statements, Passwort-Hashing, XSS-Schutz), Benutzerfreundlichkeit (intuitiver Warenkorb und Checkout, Warnhinweise) und Codequalität (modularer Aufbau, deutsche Kommentare, Transaktionssicherheit) gelegt.
