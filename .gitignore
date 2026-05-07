@@ -1,38 +1,18 @@
-# dependencies
-/node_modules
-/.pnp
-.pnp.js
-
-# testing
-/coverage
-
-# next.js
-/.next/
-/out/
-
-# production
-/build
-
-# misc
+# XAMPP / PHP
 .DS_Store
-*.pem
+Thumbs.db
 
-# debug
-npm-debug.log*
-yarn-debug.log*
-yarn-error.log*
+# IDEs
+.vscode/
+.idea/
+*.swp
+*.bak
 
-# local env files
-.env*.local
-.env
-
-# vercel
-.vercel
-
-# typescript
-*.tsbuildinfo
-next-env.d.ts
-
-# prisma
-prisma/dev.db
-prisma/dev.db-journal
+# Playwright / Tests
+tests/
+test-results/
+playwright-report/
+playwright.config.ts
+node_modules/
+package.json
+package-lock.json
