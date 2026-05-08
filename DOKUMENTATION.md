@@ -7,6 +7,33 @@
 
 ---
 
+## Inhaltsverzeichnis
+
+- [Projektteam](#projektteam)
+- [1. Einleitung](#1-einleitung)
+  - [1.1 Ausgangssituation und Motivation](#11-ausgangssituation-und-motivation)
+  - [1.2 Projektbeschreibung](#12-projektbeschreibung)
+  - [1.3 Zielsetzung](#13-zielsetzung)
+  - [1.4 Eingesetzte Technologien](#14-eingesetzte-technologien)
+  - [1.5 Entwicklungsumgebung & Hilfsmittel](#15-entwicklungsumgebung--hilfsmittel)
+  - [1.6 Funktionsübersicht (Kernfeatures)](#16-funktionsübersicht-kernfeatures)
+- [2. Systemarchitektur & Datenbank](#2-systemarchitektur--datenbank)
+  - [2.1 Datenbankmodell (ERM)](#21-datenbankmodell-erm)
+  - [2.2 Beziehungen im Detail](#22-beziehungen-im-detail)
+  - [2.3 Sicherheitskonzept](#23-sicherheitskonzept)
+- [3. Technische Implementierung](#3-technische-implementierung)
+  - [3.1 Dateistruktur](#31-dateistruktur)
+  - [3.2 Seitenbeschreibung](#32-seitenbeschreibung)
+  - [3.3 Ablauf einer Bestellung (Sequenz)](#33-ablauf-einer-bestellung-sequenz)
+  - [3.4 Frontend-Design](#34-frontend-design)
+- [4. Installationsanleitung (Lokale Entwicklung)](#4-installationsanleitung-lokale-entwicklung)
+- [5. Benutzerführung (Anleitung für den Lehrer)](#5-benutzerführung-anleitung-für-den-lehrer)
+- [6. Qualitätssicherung](#6-qualitätssicherung)
+- [7. Stundenaufwand](#7-stundenaufwand)
+- [8. Fazit & Ausblick](#8-fazit--ausblick)
+
+---
+
 ## Projektteam
 
 | Rolle | Name | Aufgabenbereich |
