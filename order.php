@@ -13,11 +13,13 @@
  */
 include 'header.php';
 
+// Zugriffsschutz: nur eingeloggte Kunden dürfen bestellen
 if (!isset($_SESSION['customer_id'])) {
     header("Location: login.php");
     exit;
 }
 
+// Warenkorb in der Session initialisieren, falls noch nicht vorhanden
 if (!isset($_SESSION['cart'])) {
     $_SESSION['cart'] = [];
 }
@@ -29,6 +31,7 @@ $checkout_items = [];
 $checkout_total = 0;
 $selected_product_id = $_GET['product_id'] ?? "";
 
+// Bestellung verarbeiten: Zahlungsmethode prüfen und Bestellung in die DB schreiben
 if ($_SERVER["REQUEST_METHOD"] == "POST" && $pdo) {
     $zahlungsart = $_POST['zahlungsart'] ?? '';
     $customer_id = $_SESSION['customer_id'];
@@ -39,8 +42,10 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && $pdo) {
         $order_ids = [];
 
         try {
+            // Transaktion starten für atomare Bestellverarbeitung
             $pdo->beginTransaction();
 
+            // Warenkorb-Checkout: alle Artikel aus dem Warenkorb bestellen
             if (!empty($_SESSION['cart'])) {
                 foreach ($_SESSION['cart'] as $pid => $qty) {
                     $stmt = $pdo->prepare("SELECT * FROM products WHERE id = ? AND stock >= ?");
@@ -67,6 +72,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && $pdo) {
                     header("Location: order_confirmation.php");
                     exit;
                 }
+            // Einzelprodukt-Bestellung: direkter Kauf ohne Warenkorb
             } elseif (isset($_POST['product_id'])) {
                 $product_id = (int)$_POST['product_id'];
                 $menge = (int)$_POST['menge'];
@@ -105,6 +111,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && $pdo) {
     }
 }
 
+// Verfügbare Produkte für die Einzelprodukt-Auswahl laden
 if ($pdo) {
     $stmt = $pdo->query("SELECT * FROM products WHERE stock > 0 ORDER BY name");
     $products = $stmt->fetchAll();
@@ -112,6 +119,7 @@ if ($pdo) {
 
 $has_cart = !empty($_SESSION['cart']);
 
+// Warenkorb-Artikel für die Checkout-Übersicht laden und Gesamtpreis berechnen
 if ($has_cart && $pdo) {
     $ids = array_keys($_SESSION['cart']);
     $placeholders = implode(',', array_fill(0, count($ids), '?'));
@@ -130,6 +138,7 @@ if ($has_cart && $pdo) {
     }
 }
 
+// Vorausgewähltes Produkt laden (wenn per URL-Parameter übergeben)
 $selected_product = null;
 if (!$has_cart && $selected_product_id && $pdo) {
     $stmt = $pdo->prepare("SELECT * FROM products WHERE id = ?");

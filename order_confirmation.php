@@ -13,6 +13,7 @@
  */
 include 'header.php';
 
+// Zugriffsschutz: nur eingeloggte Kunden dürfen die Bestätigung sehen
 if (!isset($_SESSION['customer_id'])) {
     header("Location: login.php");
     exit;
@@ -22,6 +23,7 @@ $orders = [];
 $customer = null;
 $total = 0;
 
+// Bestell-IDs ermitteln: entweder aus URL-Parameter oder aus der Session
 $order_id = (int)($_GET['id'] ?? 0);
 $order_ids = $_SESSION['last_order_ids'] ?? [];
 
@@ -29,6 +31,7 @@ if ($order_id > 0) {
     $order_ids = [$order_id];
 }
 
+// Bestelldetails inkl. Produkt- und Kundendaten aus der DB laden
 if (!empty($order_ids) && $pdo) {
     $placeholders = implode(',', array_fill(0, count($order_ids), '?'));
     $stmt = $pdo->prepare("
@@ -46,6 +49,7 @@ if (!empty($order_ids) && $pdo) {
     $stmt->execute($params);
     $orders = $stmt->fetchAll();
 
+    // Kundendaten aus erster Bestellung übernehmen und Gesamtpreis berechnen
     if (!empty($orders)) {
         $customer = $orders[0];
         foreach ($orders as $o) {
@@ -53,9 +57,11 @@ if (!empty($order_ids) && $pdo) {
         }
     }
 
+    // Session-Daten der letzten Bestellung bereinigen
     unset($_SESSION['last_order_ids']);
 }
 
+// Falls keine Bestellungen gefunden: zurück zur Bestellseite
 if (empty($orders)) {
     header("Location: order.php");
     exit;

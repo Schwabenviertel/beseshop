@@ -23,10 +23,12 @@ if ($pdo) {
 }
 ?>
 
+<!-- Produktübersicht: tabellarische Darstellung aller verfügbaren Produkte -->
 <section class="container">
     <h2 style="margin: 40px 0; text-align: center;">Onsre Produkd</h2>
 
     <?php if (!empty($products)): ?>
+    <!-- Produkttabelle mit Bild, Artikelnummer, Name, Beschreibung, Preis, Verfügbarkeit und Warenkorb-Button -->
     <table>
         <thead>
             <tr>
