@@ -271,7 +271,7 @@ Um den Webshop lokal zu betreiben, wird eine XAMPP-Umgebung benötigt. Die folge
 2. **Webserver starten**: Apache und MySQL im XAMPP Control Panel aktivieren. Beide Dienste müssen grün leuchten.
 3. **Dateien kopieren**: Das gesamte Projektverzeichnis `beseshop/` in den XAMPP-Ordner `htdocs/` verschieben (z.B. `C:\xampp\htdocs\beseshop\`).
 4. **Datenbank importieren**: `phpMyAdmin` öffnen (`http://localhost/phpmyadmin`), im Tab "Importieren" die Datei `database.sql` hochladen und ausführen. Die Datenbank `beseshop` wird automatisch erstellt, inklusive aller Tabellen und Beispieldaten (5 Produkte, 2 Testkunden).
-5. **Aufrufen**: `http://localhost/beseshop/index.php` im Browser öffnen.
+5. **Aufrufen**: `http://localhost/beseshop/index.php` im Browser öffnen. !!!WICHTIG WENN DER ORDNER NICHT DEN SELBEN NAMEN HAT BITTE DEN LINK ANPASSEN DIESER MUSS DEN SELBEN NAMEN WIE IM htdocs ORDNER HABEN!!!
 
 > **Hinweis:** Die Datenbankverbindung ist in `config.php` konfiguriert (Standard: `localhost`, Benutzer `root`, kein Passwort). Falls XAMPP andere Einstellungen verwendet, muss `config.php` angepasst werden.
 
