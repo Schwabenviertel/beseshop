@@ -12,11 +12,13 @@
  */
 include 'header.php';
 
+// Zugriffsschutz: nur eingeloggte Kunden dürfen den Warenkorb sehen
 if (!isset($_SESSION['customer_id'])) {
     header("Location: login.php");
     exit;
 }
 
+// Warenkorb in der Session initialisieren, falls noch nicht vorhanden
 if (!isset($_SESSION['cart'])) {
     $_SESSION['cart'] = [];
 }
@@ -24,9 +26,11 @@ if (!isset($_SESSION['cart'])) {
 $msg = "";
 $error = "";
 
+// POST-Aktionen verarbeiten: Artikel hinzufügen, Menge ändern, entfernen oder Warenkorb leeren
 if ($_SERVER["REQUEST_METHOD"] == "POST" && $pdo) {
     $action = $_POST['action'] ?? '';
 
+    // Artikel zum Warenkorb hinzufügen (prüft Lagerbestand)
     if ($action === 'add') {
         $product_id = (int)($_POST['product_id'] ?? 0);
         $menge = (int)($_POST['menge'] ?? 1);
@@ -50,6 +54,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && $pdo) {
                 }
             }
         }
+    // Menge eines Artikels im Warenkorb aktualisieren (bei 0 wird entfernt)
     } elseif ($action === 'update') {
         $product_id = (int)($_POST['product_id'] ?? 0);
         $menge = (int)($_POST['menge'] ?? 0);
@@ -67,16 +72,19 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && $pdo) {
             }
             $_SESSION['cart'][$product_id] = $menge;
         }
+    // Einzelnen Artikel komplett aus dem Warenkorb entfernen
     } elseif ($action === 'remove') {
         $product_id = (int)($_POST['product_id'] ?? 0);
         unset($_SESSION['cart'][$product_id]);
         $msg = "Ardikel isch aus em Warakorb raus.";
+    // Gesamten Warenkorb leeren
     } elseif ($action === 'clear') {
         $_SESSION['cart'] = [];
         $msg = "Warakorb isch jetzd leer.";
     }
 }
 
+// Warenkorb-Artikel aus der Datenbank laden und Gesamtpreis berechnen
 $cart_items = [];
 $total = 0;
 

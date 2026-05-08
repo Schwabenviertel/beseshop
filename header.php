@@ -10,8 +10,10 @@
  * Bindet die Konfiguration ein und rendert Navigation inkl. HTML-Kopf.
  * Navigation passt sich an: eingeloggte Kunden sehen andere Links als Gäste.
  */
+// Konfiguration laden (DB-Verbindung und Session-Start)
 include_once 'config.php';
 ?>
+<!-- HTML-Grundgerüst: Meta-Tags, Stylesheet und responsive Viewport -->
 <!DOCTYPE html>
 <html lang="de">
 <head>
@@ -26,6 +28,7 @@ include_once 'config.php';
             <div class="logo">
                 <a href="index.php">BESE.CO</a>
             </div>
+            <!-- Navigation: unterschiedliche Links für eingeloggte Kunden und Gäste -->
             <ul class="nav-links">
                 <li><a href="index.php">Startseit</a></li>
                 <li><a href="products.php">Produkd</a></li>
